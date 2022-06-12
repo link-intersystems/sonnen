@@ -1,11 +1,11 @@
 package com.link_intersystems.sonnen.client.api;
 
-import com.link_intersystems.sonnen.client.api.java.JsonMapIcStatus;
+import com.link_intersystems.sonnen.client.api.java.JsonIcStatus;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public interface Latestdata {
+public interface Latestdata extends JsonData {
     Integer getConsumptionW();
 
     Integer getFullChargeCapacity();
@@ -26,5 +26,5 @@ public interface Latestdata {
 
     Integer getUTCOffet();
 
-    JsonMapIcStatus getIcStatus();
+    JsonIcStatus getIcStatus();
 }

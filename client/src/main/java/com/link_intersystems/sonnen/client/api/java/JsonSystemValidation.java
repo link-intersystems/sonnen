@@ -5,11 +5,11 @@ import com.link_intersystems.sonnen.client.api.SystemValidation;
 import java.util.Map;
 
 
-public class JsonMapSystemValidation implements SystemValidation {
+public class JsonSystemValidation implements SystemValidation {
 
     private Map<String, Object> properties;
 
-    public JsonMapSystemValidation(Map<String, Object> properties) {
+    public JsonSystemValidation(Map<String, Object> properties) {
         this.properties = properties;
     }
 

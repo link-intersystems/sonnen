@@ -5,11 +5,11 @@ import com.link_intersystems.sonnen.client.api.MicrogridStatus;
 import java.util.Map;
 
 
-public class JsonMapMicrogridStatus implements MicrogridStatus {
+public class JsonMicrogridStatus implements MicrogridStatus {
 
     private Map<String, Object> properties;
 
-    public JsonMapMicrogridStatus(Map<String, Object> properties) {
+    public JsonMicrogridStatus(Map<String, Object> properties) {
         this.properties = properties;
     }
 
@@ -17,7 +17,6 @@ public class JsonMapMicrogridStatus implements MicrogridStatus {
     public Boolean getContiniousPowerViolation() {
         return (Boolean) properties.get("Continious Power Violation");
     }
-
 
     @Override
     public Boolean getDischargeCurrentLimitViolation() {
@@ -54,7 +53,6 @@ public class JsonMapMicrogridStatus implements MicrogridStatus {
     public Boolean getMinUserSOC() {
         return (Boolean) properties.get("Min User SOC");
     }
-
 
     @Override
     public Boolean getOverChargeCurrent() {

@@ -4,139 +4,139 @@ import com.link_intersystems.sonnen.client.api.Status;
 
 import java.util.Map;
 
-public class JsonMapStatus extends AbstractJsonMapData implements Status {
+public class JsonStatus extends AbstractJsonData implements Status {
 
-    public JsonMapStatus(Map<String, Object> properties) {
-        super(properties);
+    public JsonStatus(Map<String, Object> jsonData, String json) {
+        super(jsonData, json);
     }
 
     @Override
     public String getBackupBuffer() {
-        return (String) properties.get("BackupBuffer");
+        return getProperty("BackupBuffer");
     }
 
     @Override
     public Boolean getBatteryCharging() {
-        return (Boolean) properties.get("BatteryCharging");
+        return getProperty("BatteryCharging");
     }
 
     @Override
     public Boolean getBatteryDischarging() {
-        return (Boolean) properties.get("BatteryDischarging");
+        return getProperty("BatteryDischarging");
     }
 
     @Override
     public Integer getConsumptionAvg() {
-        return (Integer) properties.get("Consumption_Avg");
+        return getProperty("Consumption_Avg");
     }
 
     @Override
     public Integer getConsumptionW() {
-        return (Integer) properties.get("Consumption_W");
+        return getProperty("Consumption_W");
     }
 
     @Override
     public Double getFac() {
-        return (Double) properties.get("Fac");
+        return getProperty("Fac");
     }
 
     @Override
     public Boolean getFlowConsumptionBattery() {
-        return (Boolean) properties.get("FlowConsumptionBattery");
+        return getProperty("FlowConsumptionBattery");
     }
 
     @Override
     public Boolean getFlowConsumptionGrid() {
-        return (Boolean) properties.get("FlowConsumptionGrid");
+        return getProperty("FlowConsumptionGrid");
     }
 
     @Override
     public Boolean getFlowConsumptionProduction() {
-        return (Boolean) properties.get("FlowConsumptionProduction");
+        return getProperty("FlowConsumptionProduction");
     }
 
     @Override
     public Boolean getFlowGridBattery() {
-        return (Boolean) properties.get("FlowGridBattery");
+        return getProperty("FlowGridBattery");
     }
 
     @Override
     public Boolean getFlowProductionBattery() {
-        return (Boolean) properties.get("FlowProductionBattery");
+        return getProperty("FlowProductionBattery");
     }
 
     @Override
     public Boolean getFlowProductionGrid() {
-        return (Boolean) properties.get("FlowProductionGrid");
+        return getProperty("FlowProductionGrid");
     }
 
     @Override
     public Integer getGridFeedInW() {
-        return (Integer) properties.get("GridFeedIn_W");
+        return getProperty("GridFeedIn_W");
     }
 
     @Override
     public Integer getIsSystemInstalled() {
-        return (Integer) properties.get("IsSystemInstalled");
+        return getProperty("IsSystemInstalled");
     }
 
     @Override
     public String getOperatingMode() {
-        return (String) properties.get("OperatingMode");
+        return getProperty("OperatingMode");
     }
 
     @Override
     public Integer getPacTotalW() {
-        return (Integer) properties.get("Pac_total_W");
+        return getProperty("Pac_total_W");
     }
 
     @Override
     public Integer getProductionW() {
-        return (Integer) properties.get("Production_W");
+        return getProperty("Production_W");
     }
 
     @Override
     public Integer getRsoc() {
-        return (Integer) properties.get("RSOC");
+        return getProperty("RSOC");
     }
 
     @Override
     public Integer getRemainingCapacityWh() {
-        return (Integer) properties.get("RemainingCapacity_Wh");
+        return getProperty("RemainingCapacity_Wh");
     }
 
     @Override
     public String getSystemStatus() {
-        return (String) properties.get("SystemStatus");
+        return getProperty("SystemStatus");
     }
 
     @Override
     public String getTimestamp() {
-        return (String) properties.get("Timestamp");
+        return getProperty("Timestamp");
     }
 
     @Override
     public Integer getUsoc() {
-        return (Integer) properties.get("USOC");
+        return getProperty("USOC");
     }
 
     @Override
     public Integer getUac() {
-        return (Integer) properties.get("Uac");
+        return getProperty("Uac");
     }
 
     @Override
     public Integer getUbat() {
-        return (Integer) properties.get("Ubat");
+        return getProperty("Ubat");
     }
 
     @Override
     public Boolean getDischargeNotAllowed() {
-        return (Boolean) properties.get("dischargeNotAllowed");
+        return getProperty("dischargeNotAllowed");
     }
 
     @Override
     public Boolean getGeneratorAutostart() {
-        return (Boolean) properties.get("generator_autostart");
+        return getProperty("generator_autostart");
     }
 }

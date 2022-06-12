@@ -6,17 +6,17 @@ import com.link_intersystems.sonnen.client.api.java.*;
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public interface IcStatus {
-    JsonMapDCShutdownReason getDCShutdownReason();
+    JsonDCShutdownReason getDCShutdownReason();
 
-    JsonMapEclipseLed getEclipseLed();
+    JsonEclipseLed getEclipseLed();
 
-    JsonMapMISCStatusBits getMISCStatusBits();
+    JsonMISCStatusBits getMISCStatusBits();
 
-    JsonMapMicrogridStatus getMicrogridStatus();
+    JsonMicrogridStatus getMicrogridStatus();
 
-    JsonMapSetpointPriority getSetpointPriority();
+    JsonSetpointPriority getSetpointPriority();
 
-    JsonMapSystemValidation getSystemValidation();
+    JsonSystemValidation getSystemValidation();
 
     Integer getNrbatterymodules();
 

@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 
@@ -29,24 +31,21 @@ import static java.util.Objects.requireNonNull;
  */
 public class JavaSonnenClient implements SonnenClient {
 
-    private interface ContentParser<T> {
-        T parse(Reader reader) throws Exception;
-    }
 
     private Charset contentCharset = StandardCharsets.UTF_8;
     private String acceptMimeType = "application/json";
 
     private final SonnenClientProperties properties;
-    private ContentHandler handler;
+    private JsonParser jsonParser;
     private HttpClient httpClient;
 
     public JavaSonnenClient(SonnenClientProperties properties) {
-        this(properties, new JavascriptEngineContentHandler(), new JavaHttpClient());
+        this(properties, new JavaHttpClient(), new JavascriptEngineJsonParser());
     }
 
-    public JavaSonnenClient(SonnenClientProperties properties, ContentHandler handler, HttpClient httpClient) {
-        this.httpClient = httpClient;
-        this.handler = requireNonNull(handler);
+    public JavaSonnenClient(SonnenClientProperties properties, HttpClient httpClient, JsonParser jsonParser) {
+        this.httpClient = requireNonNull(httpClient);
+        this.jsonParser = requireNonNull(jsonParser);
         this.properties = requireNonNull(properties);
     }
 
@@ -68,26 +67,28 @@ public class JavaSonnenClient implements SonnenClient {
 
     @Override
     public Latestdata getLatestdata() throws SonnenClientException {
-        return getResource("latestdata", handler::parseLatestData);
+        return getMapResource("latestdata", jo -> new JsonLatestdata(jo.getData(), jo.getJson()));
     }
 
     @Override
     public Status getStatus() throws SonnenClientException {
-        return getResource("status", handler::parseStatus);
+        return getMapResource("status", jo -> new JsonStatus(jo.getData(), jo.getJson()));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T getConfiguration(Configuration<T> configuration) throws SonnenClientException {
         String resourceName = "configurations/" + configuration.getName();
-        return getResource(resourceName, r -> handler.parseConfiguration(r, configuration));
+        JsonObject<Map<String, Object>> jsonObject = getMapResource(resourceName);
+        return (T) jsonObject.getData().get(configuration.getName());
     }
 
     @Override
     public List<Powermeter> getPowermeter() throws SonnenClientException {
-        return getResource("powermeter", handler::parsePowermeter);
+        return getListResource("status", jo -> new JsonPowermeter(jo.getData()));
     }
 
-    private <T> T getResource(String resourceName, ContentParser<T> contentParser) throws SonnenClientException {
+    private String getResource(String resourceName) throws SonnenClientException {
         try {
             URL url = getResourceUrl(resourceName);
 
@@ -100,8 +101,40 @@ public class JavaSonnenClient implements SonnenClient {
             }
 
             try (BufferedReader reader = getReader(response)) {
-                return contentParser.parse(reader);
+                return read(reader);
             }
+        } catch (Exception e) {
+            throw new SonnenClientException(e);
+
+        }
+    }
+
+    private <T> T getMapResource(String resourceName, Function<JsonObject<Map<String, Object>>, T> constructor) throws SonnenClientException {
+        try {
+            JsonObject<Map<String, Object>> jsonObject = getMapResource(resourceName);
+            return constructor.apply(jsonObject);
+        } catch (Exception e) {
+            throw new SonnenClientException(e);
+
+        }
+    }
+
+    private JsonObject<Map<String, Object>> getMapResource(String resourceName) throws SonnenClientException {
+        String json = getResource(resourceName);
+        try {
+            Map<String, Object> map = jsonParser.parseMap(json);
+            return new JsonObject<>(json, map);
+        } catch (Exception e) {
+            throw new SonnenClientException(e);
+
+        }
+    }
+
+    private <T> List<T> getListResource(String resourceName, Function<JsonObject<Map<String, Object>>, T> elementConstructor) throws SonnenClientException {
+        String json = getResource(resourceName);
+        try {
+            List<Map<String, Object>> objects = jsonParser.parseList(json);
+            return objects.stream().map(o -> elementConstructor.apply(new JsonObject<>(json, o))).collect(Collectors.toList());
         } catch (Exception e) {
             throw new SonnenClientException(e);
 
@@ -125,6 +158,19 @@ public class JavaSonnenClient implements SonnenClient {
         headers.put("Auth-Token", properties.getApiToken());
 
         return headers;
+    }
+
+
+    protected String read(Reader reader) throws IOException {
+        StringBuilder sb = new StringBuilder(8192);
+
+        char[] buff = new char[8192];
+        int read;
+        while ((read = reader.read(buff)) > 0) {
+            sb.append(buff, 0, read);
+        }
+
+        return sb.toString();
     }
 
 }

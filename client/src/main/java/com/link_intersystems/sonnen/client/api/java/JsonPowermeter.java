@@ -4,115 +4,115 @@ import com.link_intersystems.sonnen.client.api.Powermeter;
 
 import java.util.Map;
 
-public class JsonMapPowermeter extends AbstractJsonMapData implements Powermeter {
+public class JsonPowermeter extends AbstractJsonData implements Powermeter {
 
-    public JsonMapPowermeter(Map<String, Object> properties) {
-        super(properties);
+    public JsonPowermeter(Map<String, Object> jsonObject) {
+        super(jsonObject);
     }
 
     @Override
     public Number getaL1() {
-        return (Number) properties.get("a_l1");
+        return getProperty("a_l1");
     }
 
     @Override
     public Number getaL2() {
-        return (Number) properties.get("a_l2");
+        return getProperty("a_l2");
     }
 
     @Override
     public Number getaL3() {
-        return (Number) properties.get("a_l3");
+        return getProperty("a_l3");
     }
 
     @Override
     public Number getChannel() {
-        return (Number) properties.get("channel");
+        return getProperty("channel");
     }
 
     @Override
     public Number getDeviceid() {
-        return (Number) properties.get("deviceid");
+        return getProperty("deviceid");
     }
 
     @Override
     public String getDirection() {
-        return (String) properties.get("direction");
+        return getProperty("direction");
     }
 
     @Override
     public Number getError() {
-        return (Number) properties.get("error");
+        return getProperty("error");
     }
 
     @Override
     public Number getKwhExported() {
-        return (Number) properties.get("kwh_exported");
+        return getProperty("kwh_exported");
     }
 
     @Override
     public Number getKwhImported() {
-        return (Number) properties.get("kwh_imported");
+        return getProperty("kwh_imported");
     }
 
     @Override
     public Number getvL1L2() {
-        return (Number) properties.get("v_l1_l2");
+        return getProperty("v_l1_l2");
     }
 
     @Override
     public Number getvL1N() {
-        return (Number) properties.get("v_l1_n");
+        return getProperty("v_l1_n");
     }
 
     @Override
     public Number getvL2L3() {
-        return (Number) properties.get("v_l2_l3");
+        return getProperty("v_l2_l3");
     }
 
     @Override
     public Number getvL2N() {
-        return (Number) properties.get("v_l2_n");
+        return getProperty("v_l2_n");
     }
 
     @Override
     public Number getvL3L1() {
-        return (Number) properties.get("v_l3_l1");
+        return getProperty("v_l3_l1");
     }
 
     @Override
     public Number getvL3N() {
-        return (Number) properties.get("v_l3_n");
+        return getProperty("v_l3_n");
     }
 
     @Override
     public Number getVaTotal() {
-        return (Number) properties.get("va_total");
+        return getProperty("va_total");
     }
 
     @Override
     public Number getVarTotal() {
-        return (Number) properties.get("var_total");
+        return getProperty("var_total");
     }
 
     @Override
     public Number getwL1() {
-        return (Number) properties.get("w_l1");
+        return getProperty("w_l1");
     }
 
     @Override
     public Number getwL2() {
-        return (Number) properties.get("w_l2");
+        return getProperty("w_l2");
     }
 
     @Override
     public Number getwL3() {
-        return (Number) properties.get("w_l3");
+        return getProperty("w_l3");
     }
 
     @Override
     public Number getwTotal() {
-        return (Number) properties.get("w_total");
+        return getProperty("w_total");
     }
 
 }

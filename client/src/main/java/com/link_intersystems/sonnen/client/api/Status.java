@@ -3,7 +3,7 @@ package com.link_intersystems.sonnen.client.api;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public interface Status {
+public interface Status extends JsonData {
 
     String getBackupBuffer();
 
@@ -56,4 +56,5 @@ public interface Status {
     Boolean getDischargeNotAllowed();
 
     Boolean getGeneratorAutostart();
+
 }

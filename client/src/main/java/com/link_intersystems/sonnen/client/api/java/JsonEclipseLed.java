@@ -4,11 +4,11 @@ import com.link_intersystems.sonnen.client.api.EclipseLed;
 
 import java.util.Map;
 
-public class JsonMapEclipseLed implements EclipseLed {
+public class JsonEclipseLed implements EclipseLed {
 
     private Map<String, Object> properties;
 
-    public JsonMapEclipseLed(Map<String, Object> properties) {
+    public JsonEclipseLed(Map<String, Object> properties) {
         this.properties = properties;
     }
 

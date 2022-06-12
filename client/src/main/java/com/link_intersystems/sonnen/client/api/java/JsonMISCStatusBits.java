@@ -4,12 +4,12 @@ import com.link_intersystems.sonnen.client.api.MISCStatusBits;
 
 import java.util.Map;
 
-public class JsonMapMISCStatusBits implements MISCStatusBits {
+public class JsonMISCStatusBits implements MISCStatusBits {
 
 
     private Map<String, Object> properties;
 
-    public JsonMapMISCStatusBits(Map<String, Object> properties) {
+    public JsonMISCStatusBits(Map<String, Object> properties) {
         this.properties = properties;
     }
 
