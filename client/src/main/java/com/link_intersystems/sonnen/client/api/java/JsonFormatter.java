@@ -1,9 +1,11 @@
 package com.link_intersystems.sonnen.client.api.java;
 
 import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -14,34 +16,33 @@ import static java.util.Collections.nCopies;
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class BeanJsonFormatter {
-    private static final List<Class<?>> UNQUOTED_CLASSES = Arrays.asList(Short.class, Integer.class, Long.class, Float.class, Double.class, Boolean.class);
+public class JsonFormatter {
+    private static final List<Class<?>> UNQUOTED_CLASSES = Arrays.asList(Short.class, Integer.class, Long.class, Float.class, Double.class, Boolean.class, Number.class);
     private static final List<Class<?>> DEFAULT_TYPES = new ArrayList<Class<?>>(UNQUOTED_CLASSES) {
         {
             add(String.class);
         }
     };
-    private Object bean;
+    private Object object;
 
-    public BeanJsonFormatter(Object bean) {
-        this.bean = bean;
+    public JsonFormatter(Object object) {
+        this.object = object;
     }
 
     @Override
     public String toString() {
-        if (bean == null) {
+        if (object == null) {
             return "";
         }
-        return toString(bean);
+        return toString(object);
     }
 
     protected String toString(Object bean) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("{\n");
 
         try {
-            tryAppendBeanProperties(bean, sb);
+            tryAppend(bean, sb);
 
         } catch (Exception e) {
             StringWriter sw = new StringWriter();
@@ -54,12 +55,22 @@ public class BeanJsonFormatter {
         return sb.toString();
     }
 
-    private void tryAppendBeanProperties(Object bean, Appendable sb) throws Exception {
-        Class<?> beanClass = bean.getClass();
+    private void tryAppend(Object object, Appendable sb) throws Exception {
+        Class<?> beanClass = object.getClass();
+        if (List.class.isAssignableFrom(beanClass)) {
+            appendList((List<?>) object, sb);
+        } else {
+            appendObject(object, sb, beanClass);
+        }
+    }
+
+    private void appendObject(Object object, Appendable sb, Class<?> beanClass) throws IntrospectionException, IOException, IllegalAccessException, InvocationTargetException {
         BeanInfo beanInfo = Introspector.getBeanInfo(beanClass, Object.class);
         PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
 
         Iterator<PropertyDescriptor> propertyDescriptorIterator = Arrays.asList(propertyDescriptors).iterator();
+
+        sb.append("{\n");
 
         while (propertyDescriptorIterator.hasNext()) {
             PropertyDescriptor pd = propertyDescriptorIterator.next();
@@ -71,7 +82,7 @@ public class BeanJsonFormatter {
             sb.append('"');
             sb.append(": ");
 
-            Object propertyValue = pd.getReadMethod().invoke(bean);
+            Object propertyValue = pd.getReadMethod().invoke(object);
 
             Class<?> propertyType = pd.getPropertyType();
             if (DEFAULT_TYPES.contains(propertyType)) {
@@ -89,6 +100,20 @@ public class BeanJsonFormatter {
 
         sb.append("\n");
         sb.append("}\n");
+    }
+
+    private void appendList(List<?> objects, Appendable sb) throws IOException {
+        Iterator<?> beans = objects.iterator();
+
+        sb.append("[\n");
+        while (beans.hasNext()) {
+            Object element = beans.next();
+            sb.append(toString(element));
+            if (beans.hasNext()) {
+                sb.append(",\n");
+            }
+        }
+        sb.append("]\n");
     }
 
     private String quote(Object value) {

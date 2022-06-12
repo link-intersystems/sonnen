@@ -15,7 +15,7 @@ public class AbstractJsonMapData {
 
     @Override
     public String toString() {
-        return new BeanJsonFormatter(this).toString();
+        return new JsonFormatter(this).toString();
     }
 
 }

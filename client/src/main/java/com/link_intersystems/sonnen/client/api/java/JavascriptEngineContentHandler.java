@@ -2,6 +2,7 @@ package com.link_intersystems.sonnen.client.api.java;
 
 import com.link_intersystems.sonnen.client.api.Configuration;
 import com.link_intersystems.sonnen.client.api.Latestdata;
+import com.link_intersystems.sonnen.client.api.Powermeter;
 import com.link_intersystems.sonnen.client.api.Status;
 
 import javax.script.ScriptEngine;
@@ -9,7 +10,9 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -37,6 +40,21 @@ public class JavascriptEngineContentHandler implements ContentHandler {
         Map<String, Object> contents = parseJSON(reader);
         return (T) contents.get(configuration.getName());
     }
+
+    @Override
+    public List<Powermeter> parsePowermeter(Reader reader) throws Exception {
+        List<Map<String, Object>> contents = parseJSONList(reader);
+        return contents.stream().map(JsonMapPowermeter::new).collect(Collectors.toList());
+    }
+
+    @SuppressWarnings("unchecked")
+    protected List<Map<String, Object>> parseJSONList(Reader reader) throws IOException, ScriptException {
+        CharSequence json = read(reader);
+        String script = "Java.asJSONCompatible(" + json + ")";
+        Object result = scriptEngine.eval(script);
+        return (List<Map<String, Object>>) result;
+    }
+
 
     @SuppressWarnings("unchecked")
     protected Map<String, Object> parseJSON(Reader reader) throws IOException, ScriptException {

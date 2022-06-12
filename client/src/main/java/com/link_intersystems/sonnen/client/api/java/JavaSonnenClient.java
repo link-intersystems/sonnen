@@ -16,6 +16,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -79,6 +80,11 @@ public class JavaSonnenClient implements SonnenClient {
     public <T> T getConfiguration(Configuration<T> configuration) throws SonnenClientException {
         String resourceName = "configurations/" + configuration.getName();
         return getResource(resourceName, r -> handler.parseConfiguration(r, configuration));
+    }
+
+    @Override
+    public List<Powermeter> getPowermeter() throws SonnenClientException {
+        return getResource("powermeter", handler::parsePowermeter);
     }
 
     private <T> T getResource(String resourceName, ContentParser<T> contentParser) throws SonnenClientException {
