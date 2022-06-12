@@ -7,4 +7,6 @@ public interface SonnenClient {
     Latestdata getLatestdata() throws SonnenClientException;
 
     Status getStatus() throws SonnenClientException;
+
+    <T> T getConfiguration(Configuration<T> configuration) throws SonnenClientException;
 }

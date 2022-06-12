@@ -1,5 +1,6 @@
 package com.link_intersystems.sonnen.client.api.java;
 
+import com.link_intersystems.sonnen.client.api.Configuration;
 import com.link_intersystems.sonnen.client.api.Latestdata;
 import com.link_intersystems.sonnen.client.api.Status;
 
@@ -28,6 +29,13 @@ public class JavascriptEngineContentHandler implements ContentHandler {
     public Status parseStatus(Reader reader) throws Exception {
         Map<String, Object> contents = parseJSON(reader);
         return new JsonMapStatus(contents);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T parseConfiguration(Reader reader, Configuration<T> configuration) throws Exception {
+        Map<String, Object> contents = parseJSON(reader);
+        return (T) contents.get(configuration.getName());
     }
 
     @SuppressWarnings("unchecked")

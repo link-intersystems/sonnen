@@ -3,10 +3,7 @@ package com.link_intersystems.sonnen.client.api.java;
 import com.link_intersystems.net.HttpClient;
 import com.link_intersystems.net.HttpResponse;
 import com.link_intersystems.net.java.JavaHttpClient;
-import com.link_intersystems.sonnen.client.api.Latestdata;
-import com.link_intersystems.sonnen.client.api.SonnenClient;
-import com.link_intersystems.sonnen.client.api.SonnenClientException;
-import com.link_intersystems.sonnen.client.api.Status;
+import com.link_intersystems.sonnen.client.api.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -76,6 +73,12 @@ public class JavaSonnenClient implements SonnenClient {
     @Override
     public Status getStatus() throws SonnenClientException {
         return getResource("status", handler::parseStatus);
+    }
+
+    @Override
+    public <T> T getConfiguration(Configuration<T> configuration) throws SonnenClientException {
+        String resourceName = "configurations/" + configuration.getName();
+        return getResource(resourceName, r -> handler.parseConfiguration(r, configuration));
     }
 
     private <T> T getResource(String resourceName, ContentParser<T> contentParser) throws SonnenClientException {
