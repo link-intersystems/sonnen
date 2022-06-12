@@ -6,5 +6,5 @@ package com.link_intersystems.sonnen.client.api.java;
 public interface SonnenClientProperties {
     String getApiUri();
 
-    String getAuthToken();
+    String getApiToken();
 }

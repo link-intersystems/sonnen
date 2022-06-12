@@ -5,7 +5,7 @@ package com.link_intersystems.sonnen.client.api.java;
  */
 public class DefaultSonnenClientProperties implements SonnenClientProperties {
 
-    private String authToken;
+    private String apiToken;
     private String apiUrl;
 
     public void setApiUrl(String apiUrl) {
@@ -18,12 +18,12 @@ public class DefaultSonnenClientProperties implements SonnenClientProperties {
     }
 
     @Override
-    public String getAuthToken() {
-        return authToken;
+    public String getApiToken() {
+        return apiToken;
     }
 
-    public void setAuthToken(String authToken) {
-        this.authToken = authToken;
+    public void setApiToken(String apiToken) {
+        this.apiToken = apiToken;
     }
 
 }

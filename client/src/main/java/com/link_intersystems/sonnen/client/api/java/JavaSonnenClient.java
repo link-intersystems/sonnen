@@ -122,7 +122,7 @@ public class JavaSonnenClient implements SonnenClient {
         Map<String, String> headers = new HashMap<>();
 
         headers.put("Accept", acceptMimeType);
-        headers.put("Auth-Token", properties.getAuthToken());
+        headers.put("Auth-Token", properties.getApiToken());
 
         return headers;
     }

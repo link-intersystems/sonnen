@@ -59,7 +59,6 @@ public class JavascriptEngineContentHandler implements ContentHandler {
     @SuppressWarnings("unchecked")
     protected Map<String, Object> parseJSON(Reader reader) throws IOException, ScriptException {
         CharSequence json = read(reader);
-        System.out.println(json);
         String script = "Java.asJSONCompatible(" + json + ")";
         Object result = scriptEngine.eval(script);
         return (Map<String, Object>) result;
