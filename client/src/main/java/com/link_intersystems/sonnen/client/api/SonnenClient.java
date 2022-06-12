@@ -5,4 +5,6 @@ package com.link_intersystems.sonnen.client.api;
  */
 public interface SonnenClient {
     Latestdata getLatestdata() throws SonnenClientException;
+
+    Status getStatus() throws SonnenClientException;
 }

@@ -11,6 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sonnen-api-client</artifactId>
+    <version>1.6.0</version>
     <name>Java Sonnen API client</name>
     <description>An extendable client for the Sonnen API based on pure Java.</description>
 </project>

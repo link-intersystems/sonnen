@@ -3,14 +3,18 @@ package com.link_intersystems.sonnen.client.api.java;
 import com.link_intersystems.net.HttpClient;
 import com.link_intersystems.net.HttpResponse;
 import com.link_intersystems.net.java.JavaHttpClient;
+import com.link_intersystems.sonnen.client.api.Latestdata;
 import com.link_intersystems.sonnen.client.api.SonnenClient;
 import com.link_intersystems.sonnen.client.api.SonnenClientException;
-import com.link_intersystems.sonnen.client.api.Latestdata;
+import com.link_intersystems.sonnen.client.api.Status;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -26,6 +30,10 @@ import static java.util.Objects.requireNonNull;
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public class JavaSonnenClient implements SonnenClient {
+
+    private interface ContentParser<T> {
+        T parse(Reader reader) throws Exception;
+    }
 
     private Charset contentCharset = StandardCharsets.UTF_8;
     private String acceptMimeType = "application/json";
@@ -62,11 +70,17 @@ public class JavaSonnenClient implements SonnenClient {
 
     @Override
     public Latestdata getLatestdata() throws SonnenClientException {
-        try {
-            URI apiUri = new URI(properties.getApiUri());
-            URI latestDataUri = apiUri.resolve(new URI("latestdata"));
+        return getResource("latestdata", handler::parseLatestData);
+    }
 
-            URL url = latestDataUri.toURL();
+    @Override
+    public Status getStatus() throws SonnenClientException {
+        return getResource("status", handler::parseStatus);
+    }
+
+    private <T> T getResource(String resourceName, ContentParser<T> contentParser) throws SonnenClientException {
+        try {
+            URL url = getResourceUrl(resourceName);
 
             Map<String, String> headers = getHeaders();
             HttpResponse response = httpClient.get(url, headers);
@@ -77,12 +91,18 @@ public class JavaSonnenClient implements SonnenClient {
             }
 
             try (BufferedReader reader = getReader(response)) {
-                return handler.parseLatestData(reader);
+                return contentParser.parse(reader);
             }
         } catch (Exception e) {
             throw new SonnenClientException(e);
 
         }
+    }
+
+    private URL getResourceUrl(String status) throws URISyntaxException, MalformedURLException {
+        URI apiUri = new URI(properties.getApiUri());
+        URI latestDataUri = apiUri.resolve(new URI(status));
+        return latestDataUri.toURL();
     }
 
     protected BufferedReader getReader(HttpResponse response) throws IOException {

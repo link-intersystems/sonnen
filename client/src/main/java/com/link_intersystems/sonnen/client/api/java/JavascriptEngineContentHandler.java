@@ -1,6 +1,7 @@
 package com.link_intersystems.sonnen.client.api.java;
 
 import com.link_intersystems.sonnen.client.api.Latestdata;
+import com.link_intersystems.sonnen.client.api.Status;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -23,9 +24,16 @@ public class JavascriptEngineContentHandler implements ContentHandler {
         return new JsonMapLatestdata(contents);
     }
 
+    @Override
+    public Status parseStatus(Reader reader) throws Exception {
+        Map<String, Object> contents = parseJSON(reader);
+        return new JsonMapStatus(contents);
+    }
+
     @SuppressWarnings("unchecked")
     protected Map<String, Object> parseJSON(Reader reader) throws IOException, ScriptException {
         CharSequence json = read(reader);
+        System.out.println(json);
         String script = "Java.asJSONCompatible(" + json + ")";
         Object result = scriptEngine.eval(script);
         return (Map<String, Object>) result;
