@@ -11,8 +11,12 @@ public class JsonStatus extends AbstractJsonData implements Status {
     }
 
     @Override
-    public String getBackupBuffer() {
-        return getProperty("BackupBuffer");
+    public Integer getBackupBuffer() {
+        String backupBuffer = getProperty("BackupBuffer");
+        if (backupBuffer == null) {
+            return null;
+        }
+        return Integer.parseInt(backupBuffer);
     }
 
     @Override

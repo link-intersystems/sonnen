@@ -3,12 +3,10 @@ package com.link_intersystems.sonnen.client.api.java;
 import com.link_intersystems.net.HttpClient;
 import com.link_intersystems.net.HttpResponse;
 import com.link_intersystems.net.java.JavaHttpClient;
+import com.link_intersystems.net.java.OngoingOutput;
 import com.link_intersystems.sonnen.client.api.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -84,9 +82,69 @@ public class JavaSonnenClient implements SonnenClient {
     }
 
     @Override
+    public <T> void setConfiguration(Configuration<T> configuration, T value) throws SonnenClientException {
+        try {
+            String name = configuration.getName();
+            URL url = getResourceUrl("configurations");
+
+            Map<String, String> headers = getHeaders();
+            headers.remove("Accept");
+            OngoingOutput ongoingPut = httpClient.put(url, headers);
+
+            OutputStream outputStream = ongoingPut.getOutputStream();
+            OutputStreamWriter writer = new OutputStreamWriter(outputStream);
+            writer.write(name);
+            writer.write("=");
+            writer.write(String.valueOf(value));
+            writer.flush();
+
+            HttpResponse response = ongoingPut.close();
+
+            int responseCode = response.getResponseCode();
+            if (responseCode != 200) {
+                throw new RuntimeException("Connection to " + url + " failed with response code: " + responseCode);
+            }
+
+        } catch (Exception e) {
+            throw new SonnenClientException(e);
+        }
+    }
+
+    @Override
     public List<Powermeter> getPowermeter() throws SonnenClientException {
         return getListResource("status", jo -> new JsonPowermeter(jo.getData()));
     }
+
+    @Override
+    public void discharge(int watt) throws SonnenClientException {
+        postSetpoint("discharge", watt);
+    }
+
+    @Override
+    public void charge(int watt) throws SonnenClientException {
+        postSetpoint("charge", watt);
+    }
+
+    public void postSetpoint(String name, int watt) throws SonnenClientException {
+        try {
+            URL url = getResourceUrl("setpoint/" + name + "/" + watt);
+
+            Map<String, String> headers = getHeaders();
+            OngoingOutput ongoingPost = httpClient.post(url, headers);
+
+            HttpResponse response = ongoingPost.close();
+
+            int responseCode = response.getResponseCode();
+            if (responseCode != 201) {
+                throw new RuntimeException("Connection to " + url + " failed with response code: " + responseCode);
+            }
+
+        } catch (Exception e) {
+            throw new SonnenClientException(e);
+
+        }
+    }
+
 
     private String getResource(String resourceName) throws SonnenClientException {
         try {
