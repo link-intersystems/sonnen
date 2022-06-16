@@ -2,6 +2,8 @@ package com.link_intersystems.sonnen.client.api.java;
 
 import com.link_intersystems.sonnen.client.api.Status;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 public class JsonStatus extends AbstractJsonData implements Status {
@@ -115,8 +117,14 @@ public class JsonStatus extends AbstractJsonData implements Status {
     }
 
     @Override
-    public String getTimestamp() {
-        return getProperty("Timestamp");
+    public LocalDateTime getTimestamp() {
+        String timestamp = getProperty("Timestamp");
+        if (timestamp != null) {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            return LocalDateTime.parse(timestamp, dateTimeFormatter);
+        }
+
+        return null;
     }
 
     @Override

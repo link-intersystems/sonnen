@@ -1,5 +1,7 @@
 package com.link_intersystems.sonnen.client.api;
 
+import java.time.LocalDateTime;
+
 /**
  * The {@link Status} of the sonnenBatterie.
  *
@@ -95,7 +97,7 @@ public interface Status extends EnergyData, JsonData {
     /**
      * @return the time when this data was gathered in the local system time.
      */
-    String getTimestamp();
+    LocalDateTime getTimestamp();
 
     /**
      * @return the AC voltage in volts.
