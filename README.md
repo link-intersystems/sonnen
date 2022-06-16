@@ -30,3 +30,5 @@ will output something like this:
     Verbrauch [W]: 415
     Einspeisung [W]: 5392
     Notstromreserve: 15
+
+# [sonnen-data-logger](data-logger/README.md)
