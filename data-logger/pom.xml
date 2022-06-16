@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.link-intersystems.sonnen</groupId>
+        <artifactId>sonnen</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>sonnen-status-logger</artifactId>
+
+    <properties>
+        <spring.framework>5.3.19</spring.framework>
+        <spring.boot>2.6.7</spring.boot>
+        <spring.web>3.0.2.RELEASE</spring.web>
+        <serializer.version>2.8.1</serializer.version>
+        <docker.push.skip>false</docker.push.skip>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.5.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.3.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.boot}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <version>${spring.boot}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.link-intersystems.sonnen</groupId>
+            <artifactId>sonnen-api-client</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-beans</artifactId>
+            <version>1.5.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-util</artifactId>
+            <version>1.5.2-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+
+    <profiles>
+
+        <profile>
+            <id>dist</id>
+            <properties>
+                <docker.image>openjdk:15-jdk</docker.image>
+                <docker.tag>latest</docker.tag>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <version>2.6.7</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>repackage</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>spring-boot</classifier>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>docker-package</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>docker</executable>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>build</argument>
+                                        <argument>--build-arg</argument>
+                                        <argument>IMAGE=${docker.image}</argument>
+                                        <argument>.</argument>
+                                        <argument>-f</argument>
+                                        <argument>${project.basedir}/src/main/docker/Dockerfile</argument>
+                                        <argument>-t</argument>
+                                        <argument>${project.groupId}/${project.artifactId}:${project.version}</argument>
+                                        <argument>-t</argument>
+                                        <argument>
+                                            dockerhub.link-intersystems.com/${project.groupId}/${project.artifactId}:${docker.tag}
+                                        </argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>docker-push</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>docker</executable>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>push</argument>
+                                        <argument>
+                                            dockerhub.link-intersystems.com/${project.groupId}/${project.artifactId}:${docker.tag}
+                                        </argument>
+                                    </arguments>
+                                    <skip>${docker.push.skip}</skip>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>arm-v7</id>
+            <properties>
+                <docker.image>arm32v7/openjdk:11-ea-15-jdk</docker.image>
+                <docker.tag>latest-arm-v7</docker.tag>
+            </properties>
+        </profile>
+    </profiles>
+
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <comments>
+                <![CDATA[
+                Disclaimer
+
+                we make no warranty that:
+
+                - The software will meet your requirements.
+                - The software will be uninterrupted, timely, secure or error-free.
+                - The results from the use of the software will be effective, accurate or reliable.
+                - The quality of the software will meet your expectations.
+
+                The links to software and the related documentation made available on this website are subject to the following conditions:
+
+                - The software could include technical or other mistakes, inaccuracies or typographical errors.
+                - At any time without prior notice, we may make changes to the links pointing to software or documentation made available on this website.
+                - The software may be out of date, and we make no commitment to update such materials.
+                - We assume no responsibility for errors or omissions in the software or documentation available from its website.
+                - In no event shall we be liable to you or any third parties for any special, punitive, incidental, indirect or consequential damages of any kind, or any damages whatsoever, including, without limitation, those resulting from loss of use, lost data or profits, or any liability, arising out of or in connection with the use of this software.
+
+                When you download or use this software, either directly or as a transitive dependency, you agree to the disclaimer above.
+                ]]>
+            </comments>
+        </license>
+    </licenses>
+</project>

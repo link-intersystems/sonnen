@@ -1,0 +1,40 @@
+# Use root/example as user/password credentials
+version: '3.1'
+services:
+
+  logger:
+    image: dockerhub.link-intersystems.com/com.link-intersystems.sonnen/sonnen-status-logger:${TAG:-latest}
+    restart: always
+    command: --spring.config.location=/application.properties --f --s=${INTERVAL:-PT10.000S}
+    volumes:
+      - ./application.properties:/application.properties
+    depends_on:
+      - "db"
+
+  db:
+    image: mongo:4.4.13
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - db:/data/db
+      - config:/data/configdb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  db-browser:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@db:27017/
+    depends_on:
+      - "db"
+
+volumes:
+  db:
+  config:

@@ -3,7 +3,6 @@ package com.link_intersystems.sonnen.client.api.java;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -12,12 +11,19 @@ import java.util.Map;
  */
 public class JavascriptEngineJsonParser implements JsonParser {
 
-    ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
-    private ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("javascript");
+    private ScriptEngine scriptEngine;
+
+    public JavascriptEngineJsonParser() {
+        ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+        scriptEngine = scriptEngineManager.getEngineByName("javascript");
+        if (scriptEngine == null) {
+            throw new IllegalStateException("ScriptEnginge 'javascript' is not available");
+        }
+    }
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> parseMap(String json) throws Exception {
+    public Map<String, Object> parseObject(String json) throws Exception {
         String script = "Java.asJSONCompatible(" + json + ")";
         Object result = scriptEngine.eval(script);
         return (Map<String, Object>) result;
@@ -25,7 +31,7 @@ public class JavascriptEngineJsonParser implements JsonParser {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Map<String, Object>> parseList(String json) throws ScriptException {
+    public List<Map<String, Object>> parseArray(String json) throws ScriptException {
         String script = "Java.asJSONCompatible(" + json + ")";
         Object result = scriptEngine.eval(script);
         return (List<Map<String, Object>>) result;

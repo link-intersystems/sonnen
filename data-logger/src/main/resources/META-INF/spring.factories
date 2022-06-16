@@ -1,0 +1,2 @@
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#  com.link_intersystems.sonnen.datalogger.main.SonnenDataLoggerJavaConfig

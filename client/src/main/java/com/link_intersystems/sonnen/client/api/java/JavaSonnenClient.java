@@ -180,7 +180,7 @@ public class JavaSonnenClient implements SonnenClient {
     private JsonObject<Map<String, Object>> getMapResource(String resourceName) throws SonnenClientException {
         String json = getResource(resourceName);
         try {
-            Map<String, Object> map = jsonParser.parseMap(json);
+            Map<String, Object> map = jsonParser.parseObject(json);
             return new JsonObject<>(json, map);
         } catch (Exception e) {
             throw new SonnenClientException(e);
@@ -191,7 +191,7 @@ public class JavaSonnenClient implements SonnenClient {
     private <T> List<T> getListResource(String resourceName, Function<JsonObject<Map<String, Object>>, T> elementConstructor) throws SonnenClientException {
         String json = getResource(resourceName);
         try {
-            List<Map<String, Object>> objects = jsonParser.parseList(json);
+            List<Map<String, Object>> objects = jsonParser.parseArray(json);
             return objects.stream().map(o -> elementConstructor.apply(new JsonObject<>(json, o))).collect(Collectors.toList());
         } catch (Exception e) {
             throw new SonnenClientException(e);

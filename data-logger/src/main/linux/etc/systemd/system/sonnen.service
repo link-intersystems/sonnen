@@ -1,0 +1,17 @@
+# /etc/systemd/system/docker-compose-app.service
+
+[Unit]
+Description=Docker Compose Sonnen Service
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/usr/lib/sonnen
+ExecStart=/usr/lib/sonnen/sonnen.sh start
+ExecStop=/usr/lib/sonnen/sonnen.sh stop
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

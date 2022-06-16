@@ -10,8 +10,8 @@ import java.util.Map;
  */
 public interface JsonParser {
 
-    Map<String, Object> parseMap(String json) throws Exception;
+    Map<String, Object> parseObject(String json) throws Exception;
 
-    List<Map<String, Object>> parseList(String json) throws IOException, ScriptException;
+    List<Map<String, Object>> parseArray(String json) throws IOException, ScriptException;
 
 }
