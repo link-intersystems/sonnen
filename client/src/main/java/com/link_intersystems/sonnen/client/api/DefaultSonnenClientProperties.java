@@ -1,4 +1,6 @@
-package com.link_intersystems.sonnen.client.api.java;
+package com.link_intersystems.sonnen.client.api;
+
+import com.link_intersystems.sonnen.client.api.java.SonnenClientProperties;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
