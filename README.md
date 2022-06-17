@@ -1,11 +1,8 @@
-This repository contains libraries that can be used with the sonnen.de photovoltaics system.  
+This repository contains libraries that can be used with the sonnen.de photovoltaics system.
 
-When you use the software provided here you agree to the [Disclaimer](DISCLAIMER.md) and
-the [License Agreement](LICENSE_AGREEMENT.md).
-
-| :exclamation:  Disclaimer                                                                                                                                                                                                                                                                                                                          |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| In no event shall we be liable to you or any third parties for any special, punitive, incidental, indirect or consequential damages of any kind, or any damages whatsoever, including, without limitation, those resulting from loss of use, lost data or profits, or any liability, arising out of or in connection with the use of this software. | 
+| :point_up: License                                                                                           |
+|--------------------------------------------------------------------------------------------------------------|
+| When you use the software provided here you agree to the the [Eclipse Public License (EPL) 2.0](LICENSE.md). | 
 
 
 # [sonnen-api-client](client/README.md)
