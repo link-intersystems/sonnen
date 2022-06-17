@@ -14,36 +14,28 @@
 
 package com.link_intersystems.sonnen.datalogger.main;
 
-import org.springframework.boot.ApplicationArguments;
+import org.apache.commons.cli.CommandLine;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class SpringApplicationArgs implements ApplicationArgs {
+public class CommonsCliApplicationArgs implements ApplicationArgs {
 
-    private ApplicationArguments arguments;
+    private CommandLine cmd;
 
-    public SpringApplicationArgs(ApplicationArguments arguments) {
-        this.arguments = requireNonNull(arguments);
+    public CommonsCliApplicationArgs(CommandLine cmd) {
+        this.cmd = cmd;
     }
 
+    @Override
     public Optional<String> getOption(String optionName) {
-        List<String> optionArgs = Optional.ofNullable(arguments.getOptionValues(optionName)).orElseGet(Collections::emptyList);
-        return optionArgs.stream().findFirst();
+        return Optional.ofNullable(cmd.getOptionValue(optionName));
     }
 
     @Override
     public boolean isOptionEnabled(String optionName) {
-        Set<String> optionNames = arguments.getOptionNames();
-        return optionNames.contains(optionName);
+        return cmd.hasOption(optionName);
     }
-
-
 }

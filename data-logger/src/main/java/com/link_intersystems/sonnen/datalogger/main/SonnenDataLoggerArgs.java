@@ -34,11 +34,11 @@ public class SonnenDataLoggerArgs {
     }
 
     public int getMaxIterations() {
-        return applicationArgs.getOption("c").map(Integer::parseInt).orElse(5);
+        return applicationArgs.getOption(ApplicationArgs.RUN_COUNT).map(Integer::parseInt).orElse(5);
     }
 
     public long getLagDurationMs() {
-        return applicationArgs.getOption("s").map(this::parseDurationOption).map(Duration::toMillis).orElse(1000L);
+        return applicationArgs.getOption(ApplicationArgs.SLEEP_DURATION).map(this::parseDurationOption).map(Duration::toMillis).orElse(1000L);
     }
 
     private Duration parseDurationOption(String value) {
