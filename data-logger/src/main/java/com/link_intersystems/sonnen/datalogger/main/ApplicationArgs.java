@@ -29,6 +29,7 @@ public interface ApplicationArgs {
     public static final String COLLECTION_NAME = "n";
     public static final String DATABASE_NAME = "d";
     public static final String TIME_ZONE = "z";
+    public static final String HELP = "h";
 
     default public String getOption(String optionName, String defaultValue) {
         return getOption(optionName).orElse(defaultValue);

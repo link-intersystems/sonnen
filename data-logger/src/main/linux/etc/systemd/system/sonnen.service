@@ -1,7 +1,7 @@
 # /etc/systemd/system/docker-compose-app.service
 
 [Unit]
-Description=Docker Compose Sonnen Service
+Description=Sonnen Data Logger Service
 Requires=docker.service
 After=docker.service
 
