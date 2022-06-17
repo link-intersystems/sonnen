@@ -11,3 +11,5 @@ docker services.
 Stop the sonnen data logger: `sudo systemctl stop sonnen` or
 restart the sonnen data logger: `sudo systemctl restart sonnen`.
 
+Access the mongodb express web ui via `http://<HOST_OR_IP>`
+
