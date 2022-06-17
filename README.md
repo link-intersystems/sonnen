@@ -35,7 +35,12 @@ a sonnenBatterie and persists it in a mongodb.
 
 It runs on *amd64* and *arm/v7* (such as a raspberry pi).
 
-Docker image is available at https://hub.docker.com/repository/docker/linkintersystems/sonnen-data-logger.
+## Docker
+
+A Docker image is available at https://hub.docker.com/repository/docker/linkintersystems/sonnen-data-logger.
+
+Setup steps are explained at [sonnen-data-logger](data-logger/README.md).
+
 
 
 
