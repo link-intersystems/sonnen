@@ -69,9 +69,6 @@
 
         <profile>
             <id>docker-deploy</id>
-            <properties>
-                <maven.deploy.skip>true</maven.deploy.skip>
-            </properties>
             <build>
                 <plugins>
                     <plugin>
