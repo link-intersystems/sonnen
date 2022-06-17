@@ -29,3 +29,13 @@ will output something like this:
     Notstromreserve: 15
 
 # [sonnen-data-logger](data-logger/README.md)
+
+The sonnen-data-logger is a Spring Boot application that retrieves status data from
+a sonnenBatterie and persists it in a mongodb. 
+
+It runs on *amd64* and *arm/v7* (such as a raspberry pi).
+
+Docker image is available at https://hub.docker.com/repository/docker/linkintersystems/sonnen-data-logger.
+
+
+
