@@ -25,14 +25,15 @@ import org.springframework.boot.ApplicationRunner;
 class StatusDataLoggerRunner implements ApplicationRunner {
 
     private final StatusDataLoggerController controller;
+    private ApplicationArgs applicationArgs;
 
-    public StatusDataLoggerRunner(StatusDataLoggerController controller) {
+    public StatusDataLoggerRunner(StatusDataLoggerController controller, ApplicationArgs applicationArgs) {
         this.controller = controller;
+        this.applicationArgs = applicationArgs;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        ApplicationArgs applicationArgs = new SpringApplicationArgs(args);
         SonnenDataLoggerArgs sonnenDataLoggerArgs = new SonnenDataLoggerArgs(applicationArgs);
         Loop mainLoop = getMainLoop(sonnenDataLoggerArgs);
         mainLoop.execute(controller::execute);

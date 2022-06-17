@@ -126,8 +126,8 @@ public class StatusDataLoggerApp {
     }
 
     @Bean
-    public ApplicationRunner commandLineRunner(StatusDataLoggerController dataLogger) {
-        return new StatusDataLoggerRunner(dataLogger);
+    public ApplicationRunner commandLineRunner(StatusDataLoggerController dataLogger, ApplicationArgs applicationArgs) {
+        return new StatusDataLoggerRunner(dataLogger, applicationArgs);
     }
 
 }
