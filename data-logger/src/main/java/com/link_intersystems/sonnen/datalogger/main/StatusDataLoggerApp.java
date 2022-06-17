@@ -22,6 +22,8 @@ import com.link_intersystems.sonnen.datalogger.gateway.MongoDBConfiguration;
 import com.link_intersystems.sonnen.datalogger.gateway.MongoSonnenRepository;
 import com.mongodb.client.MongoClient;
 import org.apache.commons.cli.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -43,7 +45,6 @@ import static com.link_intersystems.sonnen.datalogger.main.ApplicationArgs.*;
 @SpringBootApplication
 @EnableConfigurationProperties({SpringSonnenClientProperties.class})
 public class StatusDataLoggerApp {
-
 
     public static void main(String[] args) throws ParseException {
         try {

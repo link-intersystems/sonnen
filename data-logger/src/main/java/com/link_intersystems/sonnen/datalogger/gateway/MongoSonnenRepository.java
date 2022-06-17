@@ -16,6 +16,8 @@ package com.link_intersystems.sonnen.datalogger.gateway;
 
 import com.link_intersystems.sonnen.client.api.Status;
 import com.link_intersystems.sonnen.datalogger.entity.SonnenRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.Map;
@@ -26,6 +28,8 @@ import static java.util.Objects.requireNonNull;
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
 public class MongoSonnenRepository implements SonnenRepository {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MongoSonnenRepository.class);
 
     private EntityPersistenceConverter persistenceConverter;
 
@@ -42,6 +46,7 @@ public class MongoSonnenRepository implements SonnenRepository {
     public void persist(Status status) {
         Map<String, Object> mapToSave = persistenceConverter.convert(status);
         String statusCollectionName = mongoDBConfiguration.getStatusCollectionName();
+        LOGGER.debug("Persist status to collection '{}': {} ", statusCollectionName, mapToSave);
         mongoTemplate.insert(mapToSave, statusCollectionName);
     }
 }

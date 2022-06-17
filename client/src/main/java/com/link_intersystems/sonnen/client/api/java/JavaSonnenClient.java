@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
@@ -43,6 +45,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class JavaSonnenClient implements SonnenClient {
 
+    private static final Logger LOGGER = Logger.getLogger(JavaSonnenClient.class.getName());
 
     private Charset contentCharset = StandardCharsets.UTF_8;
     private String acceptMimeType = "application/json";
@@ -112,9 +115,17 @@ public class JavaSonnenClient implements SonnenClient {
             writer.write(String.valueOf(value));
             writer.flush();
 
+
+            LOGGER.log(Level.FINE, "Put URL {0}", url);
+
             HttpResponse response = ongoingPut.close();
 
             int responseCode = response.getResponseCode();
+
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.log(Level.FINE, "Response {0} : {1}", new Object[]{url, responseCode});
+            }
+
             if (responseCode != 200) {
                 throw new RuntimeException("Connection to " + url + " failed with response code: " + responseCode);
             }
@@ -146,9 +157,17 @@ public class JavaSonnenClient implements SonnenClient {
             Map<String, String> headers = getHeaders();
             OngoingOutput ongoingPost = httpClient.post(url, headers);
 
+
+            LOGGER.log(Level.FINE, "Post URL {0}", url);
+
             HttpResponse response = ongoingPost.close();
 
             int responseCode = response.getResponseCode();
+
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.log(Level.FINE, "Response {0} : {1}", new Object[]{url, responseCode});
+            }
+
             if (responseCode != 201) {
                 throw new RuntimeException("Connection to " + url + " failed with response code: " + responseCode);
             }
@@ -164,10 +183,18 @@ public class JavaSonnenClient implements SonnenClient {
         try {
             URL url = getResourceUrl(resourceName);
 
+
             Map<String, String> headers = getHeaders();
             HttpResponse response = httpClient.get(url, headers);
 
+            LOGGER.log(Level.FINE, "Get URL {0}", url);
+
             int responseCode = response.getResponseCode();
+
+            if (LOGGER.isLoggable(Level.FINE)) {
+                LOGGER.log(Level.FINE, "Response {0} : {1}", new Object[]{url, responseCode});
+            }
+
             if (responseCode != 200) {
                 throw new RuntimeException("Connection to " + url + " failed with response code: " + responseCode);
             }

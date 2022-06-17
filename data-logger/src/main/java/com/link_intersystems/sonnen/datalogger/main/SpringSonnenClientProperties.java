@@ -22,4 +22,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties("spring.sonnen")
 public class SpringSonnenClientProperties extends DefaultSonnenClientProperties {
+
 }
