@@ -1,5 +1,7 @@
-ARG IMAGE=SET_IMAGE_BUILD_ARG
-FROM ${IMAGE}
+FROM ubuntu:20.04
+
+RUN apt-get update -y
+RUN apt-get -y install -y openjdk-11-jre-headless
 
 ARG JAR_FILE=target/*-spring-boot.jar
 COPY ${JAR_FILE} app.jar

@@ -17,7 +17,6 @@
         <spring.boot>2.6.7</spring.boot>
         <spring.web>3.0.2.RELEASE</spring.web>
         <serializer.version>2.8.1</serializer.version>
-        <docker.push.skip>false</docker.push.skip>
     </properties>
 
     <dependencies>
@@ -64,10 +63,9 @@
     <profiles>
 
         <profile>
-            <id>dist</id>
+            <id>docker-deploy</id>
             <properties>
-                <docker.image>openjdk:15-jdk</docker.image>
-                <docker.tag>latest</docker.tag>
+                <maven.deploy.skip>true</maven.deploy.skip>
             </properties>
             <build>
                 <plugins>
@@ -93,7 +91,7 @@
                         <version>3.0.0</version>
                         <executions>
                             <execution>
-                                <id>docker-package</id>
+                                <id>docker-create-multiplatform-builder</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>exec</goal>
@@ -102,24 +100,16 @@
                                     <executable>docker</executable>
                                     <workingDirectory>${project.basedir}</workingDirectory>
                                     <arguments>
-                                        <argument>build</argument>
-                                        <argument>--build-arg</argument>
-                                        <argument>IMAGE=${docker.image}</argument>
-                                        <argument>.</argument>
-                                        <argument>-f</argument>
-                                        <argument>${project.basedir}/src/main/docker/Dockerfile</argument>
-                                        <argument>-t</argument>
-                                        <argument>${project.groupId}/${project.artifactId}:${project.version}</argument>
-                                        <argument>-t</argument>
-                                        <argument>
-                                            dockerhub.link-intersystems.com/${project.groupId}/${project.artifactId}:${docker.tag}
-                                        </argument>
+                                        <argument>buildx</argument>
+                                        <argument>create</argument>
+                                        <argument>--name</argument>
+                                        <argument>mp</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>docker-push</id>
-                                <phase>deploy</phase>
+                                <id>docker-use-multiplatform-builder</id>
+                                <phase>package</phase>
                                 <goals>
                                     <goal>exec</goal>
                                 </goals>
@@ -127,25 +117,55 @@
                                     <executable>docker</executable>
                                     <workingDirectory>${project.basedir}</workingDirectory>
                                     <arguments>
-                                        <argument>push</argument>
-                                        <argument>
-                                            dockerhub.link-intersystems.com/${project.groupId}/${project.artifactId}:${docker.tag}
-                                        </argument>
+                                        <argument>buildx</argument>
+                                        <argument>use</argument>
+                                        <argument>mp</argument>
                                     </arguments>
-                                    <skip>${docker.push.skip}</skip>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>docker-build-and-push-multiplatform</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>docker</executable>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>buildx</argument>
+                                        <argument>build</argument>
+                                        <argument>--platform</argument>
+                                        <argument>linux/amd64,linux/arm64,linux/arm/v7</argument>
+                                        <argument>-f</argument>
+                                        <argument>${project.basedir}/src/main/docker/Dockerfile</argument>
+                                        <argument>-t</argument>
+                                        <argument>linkintersystems/sonnen-data-logger:latest</argument>
+                                        <argument>--push</argument>
+                                        <argument>.</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>docker-remove-multiplatform-builder</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>docker</executable>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>buildx</argument>
+                                        <argument>rm</argument>
+                                        <argument>mp</argument>
+                                    </arguments>
                                 </configuration>
                             </execution>
                         </executions>
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-        <profile>
-            <id>arm-v7</id>
-            <properties>
-                <docker.image>arm32v7/openjdk:11-ea-15-jdk</docker.image>
-                <docker.tag>latest-arm-v7</docker.tag>
-            </properties>
         </profile>
     </profiles>
 </project>
