@@ -5,7 +5,7 @@ services:
   logger:
     image: linkintersystems/sonnen-data-logger:${TAG:-latest}
     restart: always
-    command: --f --s=${INTERVAL:-PT10.000S}
+    command: -f -s ${INTERVAL:-PT10.000S}
     volumes:
       - ./application.properties:/application.properties
     depends_on:
