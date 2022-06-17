@@ -11,18 +11,3 @@ docker services.
 Stop the sonnen data logger: `sudo systemctl stop sonnen` or
 restart the sonnen data logger: `sudo systemctl restart sonnen`.
 
-
-# FAQ
-
-## exec /usr/java/openjdk-15/bin/java: exec format error
-
-When you see a
-
-    exec /usr/java/openjdk-15/bin/java: exec format error
-
-when you take a look at `docker logs sonnen_logger_1`, you are using the wrong platform image.
-Maybe you try to run it on a raspberry pi with arm/v7. In this case you should edit the `/usr/lib/sonnen/.env`
-
-    # the docker image tag: "latest" (amd64) or "latest-arm-v7" (raspberry pi)
-    TAG=latest-arm-v7
-
