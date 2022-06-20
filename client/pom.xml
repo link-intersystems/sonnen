@@ -13,6 +13,14 @@
     <artifactId>sonnen-api-client</artifactId>
     <version>1.6.0</version>
     <name>Java Sonnen API client</name>
-    <description>An extendable client for the Sonnen API based on pure Java.</description>
+    <description>An extendable client for the Sonnen API.</description>
 
+
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.2.1</version>
+        </dependency>
+    </dependencies>
 </project>

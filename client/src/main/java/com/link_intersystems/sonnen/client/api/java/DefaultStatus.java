@@ -20,15 +20,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-public class JsonStatus extends AbstractJsonData implements Status {
+public class DefaultStatus extends MapAdapter implements Status {
 
-    public JsonStatus(Map<String, Object> jsonData, String json) {
-        super(jsonData, json);
+    public DefaultStatus(Map<String, Object> data) {
+        super(data);
     }
 
     @Override
     public Integer getBackupBuffer() {
-        String backupBuffer = getProperty("BackupBuffer");
+        String backupBuffer = getValue("BackupBuffer");
         if (backupBuffer == null) {
             return null;
         }
@@ -37,102 +37,102 @@ public class JsonStatus extends AbstractJsonData implements Status {
 
     @Override
     public Boolean getBatteryCharging() {
-        return getProperty("BatteryCharging");
+        return getValue("BatteryCharging");
     }
 
     @Override
     public Boolean getBatteryDischarging() {
-        return getProperty("BatteryDischarging");
+        return getValue("BatteryDischarging");
     }
 
     @Override
     public Integer getConsumptionAvg() {
-        return getProperty("Consumption_Avg");
+        return getValue("Consumption_Avg");
     }
 
     @Override
     public Integer getConsumptionW() {
-        return getProperty("Consumption_W");
+        return getValue("Consumption_W");
     }
 
     @Override
     public Double getFac() {
-        return getProperty("Fac");
+        return getValue("Fac");
     }
 
     @Override
     public Boolean getFlowConsumptionBattery() {
-        return getProperty("FlowConsumptionBattery");
+        return getValue("FlowConsumptionBattery");
     }
 
     @Override
     public Boolean getFlowConsumptionGrid() {
-        return getProperty("FlowConsumptionGrid");
+        return getValue("FlowConsumptionGrid");
     }
 
     @Override
     public Boolean getFlowConsumptionProduction() {
-        return getProperty("FlowConsumptionProduction");
+        return getValue("FlowConsumptionProduction");
     }
 
     @Override
     public Boolean getFlowGridBattery() {
-        return getProperty("FlowGridBattery");
+        return getValue("FlowGridBattery");
     }
 
     @Override
     public Boolean getFlowProductionBattery() {
-        return getProperty("FlowProductionBattery");
+        return getValue("FlowProductionBattery");
     }
 
     @Override
     public Boolean getFlowProductionGrid() {
-        return getProperty("FlowProductionGrid");
+        return getValue("FlowProductionGrid");
     }
 
     @Override
     public Integer getGridFeedInW() {
-        return getProperty("GridFeedIn_W");
+        return getValue("GridFeedIn_W");
     }
 
     @Override
     public Integer getIsSystemInstalled() {
-        return getProperty("IsSystemInstalled");
+        return getValue("IsSystemInstalled");
     }
 
     @Override
     public String getOperatingMode() {
-        return getProperty("OperatingMode");
+        return getValue("OperatingMode");
     }
 
     @Override
     public Integer getPacTotalW() {
-        return getProperty("Pac_total_W");
+        return getValue("Pac_total_W");
     }
 
     @Override
     public Integer getProductionW() {
-        return getProperty("Production_W");
+        return getValue("Production_W");
     }
 
     @Override
     public Integer getRsoc() {
-        return getProperty("RSOC");
+        return getValue("RSOC");
     }
 
     @Override
     public Integer getRemainingCapacityWh() {
-        return getProperty("RemainingCapacity_Wh");
+        return getValue("RemainingCapacity_Wh");
     }
 
     @Override
     public String getSystemStatus() {
-        return getProperty("SystemStatus");
+        return getValue("SystemStatus");
     }
 
     @Override
     public LocalDateTime getTimestamp() {
-        String timestamp = getProperty("Timestamp");
+        String timestamp = getValue("Timestamp");
         if (timestamp != null) {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             return LocalDateTime.parse(timestamp, dateTimeFormatter);
@@ -143,26 +143,26 @@ public class JsonStatus extends AbstractJsonData implements Status {
 
     @Override
     public Integer getUsoc() {
-        return getProperty("USOC");
+        return getValue("USOC");
     }
 
     @Override
     public Integer getUac() {
-        return getProperty("Uac");
+        return getValue("Uac");
     }
 
     @Override
     public Integer getUbat() {
-        return getProperty("Ubat");
+        return getValue("Ubat");
     }
 
     @Override
     public Boolean getDischargeNotAllowed() {
-        return getProperty("dischargeNotAllowed");
+        return getValue("dischargeNotAllowed");
     }
 
     @Override
     public Boolean getGeneratorAutostart() {
-        return getProperty("generator_autostart");
+        return getValue("generator_autostart");
     }
 }

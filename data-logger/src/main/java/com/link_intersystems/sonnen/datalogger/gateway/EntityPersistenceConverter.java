@@ -14,13 +14,8 @@
 
 package com.link_intersystems.sonnen.datalogger.gateway;
 
-import com.link_intersystems.beans.java.InterfaceBeanInfo;
-import com.link_intersystems.beans.java.MergedAdditionalBeanInfo;
-import com.link_intersystems.sonnen.client.api.JsonData;
 import com.link_intersystems.sonnen.client.api.Status;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.LinkedHashMap;
@@ -33,19 +28,10 @@ import static java.util.Objects.requireNonNull;
  */
 class EntityPersistenceConverter {
 
-    private String idName = "_id";
-
-    private final MergedAdditionalBeanInfo statusBeanInfo;
     private ZoneId zoneId;
 
     EntityPersistenceConverter(ZoneId zoneId) {
         this.zoneId = requireNonNull(zoneId);
-        try {
-            BeanInfo statusBeanInfo = new InterfaceBeanInfo(Status.class, JsonData.class);
-            this.statusBeanInfo = new MergedAdditionalBeanInfo(statusBeanInfo);
-        } catch (IntrospectionException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public Map<String, Object> convert(Status status) {
@@ -54,6 +40,7 @@ class EntityPersistenceConverter {
 
         LocalDateTime timestamp = status.getTimestamp();
         long systemTimeAtZone = timestamp.atZone(zoneId).toInstant().toEpochMilli();
+        String idName = "_id";
         beanMap.put(idName, systemTimeAtZone);
 
         beanMap.put("timestamp", status.getTimestamp());

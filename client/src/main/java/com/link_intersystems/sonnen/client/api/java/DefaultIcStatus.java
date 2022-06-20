@@ -19,17 +19,17 @@ import com.link_intersystems.sonnen.client.api.IcStatus;
 import java.util.Map;
 import java.util.function.Function;
 
-public class JsonIcStatus implements IcStatus {
+public class DefaultIcStatus implements IcStatus {
 
     private Map<String, Object> properties;
 
-    public JsonIcStatus(Map<String, Object> properties) {
+    public DefaultIcStatus(Map<String, Object> properties) {
         this.properties = properties;
     }
 
     @Override
-    public JsonDCShutdownReason getDCShutdownReason() {
-        return getObject("DC Shutdown Reason", JsonDCShutdownReason::new);
+    public DefaultDCShutdownReason getDCShutdownReason() {
+        return getObject("DC Shutdown Reason", DefaultDCShutdownReason::new);
     }
 
     @SuppressWarnings("unchecked")
@@ -42,28 +42,28 @@ public class JsonIcStatus implements IcStatus {
     }
 
     @Override
-    public JsonEclipseLed getEclipseLed() {
-        return getObject("Eclipse Led", JsonEclipseLed::new);
+    public DefaultEclipseLed getEclipseLed() {
+        return getObject("Eclipse Led", DefaultEclipseLed::new);
     }
 
     @Override
-    public JsonMISCStatusBits getMISCStatusBits() {
-        return getObject("MISC Status Bits", JsonMISCStatusBits::new);
+    public DefaultMISCStatusBits getMISCStatusBits() {
+        return getObject("MISC Status Bits", DefaultMISCStatusBits::new);
     }
 
     @Override
-    public JsonMicrogridStatus getMicrogridStatus() {
-        return getObject("Microgrid Status", JsonMicrogridStatus::new);
+    public DefaultMicrogridStatus getMicrogridStatus() {
+        return getObject("Microgrid Status", DefaultMicrogridStatus::new);
     }
 
     @Override
-    public JsonSetpointPriority getSetpointPriority() {
-        return getObject("Setpoint Priority", JsonSetpointPriority::new);
+    public DefaultSetpointPriority getSetpointPriority() {
+        return getObject("Setpoint Priority", DefaultSetpointPriority::new);
     }
 
     @Override
-    public JsonSystemValidation getSystemValidation() {
-        return getObject("System Validation", JsonSystemValidation::new);
+    public DefaultSystemValidation getSystemValidation() {
+        return getObject("System Validation", DefaultSystemValidation::new);
     }
 
     @Override

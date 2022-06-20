@@ -16,7 +16,6 @@ package com.link_intersystems.sonnen.client.api.java;
 
 import com.link_intersystems.net.HttpClient;
 import com.link_intersystems.net.HttpResponse;
-import com.link_intersystems.net.java.JavaHttpClient;
 import com.link_intersystems.net.java.OngoingOutput;
 import com.link_intersystems.sonnen.client.api.*;
 
@@ -49,18 +48,14 @@ public class JavaSonnenClient implements SonnenClient {
 
     private Charset contentCharset = StandardCharsets.UTF_8;
     private String acceptMimeType = "application/json";
+    private JsonFormat jsonFormat;
 
     private final SonnenClientProperties properties;
-    private JsonParser jsonParser;
     private HttpClient httpClient;
 
-    public JavaSonnenClient(SonnenClientProperties properties) {
-        this(properties, new JavaHttpClient(), new JavascriptEngineJsonParser());
-    }
-
-    public JavaSonnenClient(SonnenClientProperties properties, HttpClient httpClient, JsonParser jsonParser) {
+    public JavaSonnenClient(SonnenClientProperties properties, HttpClient httpClient, JsonFormat jsonFormat) {
         this.httpClient = requireNonNull(httpClient);
-        this.jsonParser = requireNonNull(jsonParser);
+        this.jsonFormat = requireNonNull(jsonFormat);
         this.properties = requireNonNull(properties);
     }
 
@@ -82,20 +77,20 @@ public class JavaSonnenClient implements SonnenClient {
 
     @Override
     public Latestdata getLatestdata() throws SonnenClientException {
-        return getMapResource("latestdata", jo -> new JsonLatestdata(jo.getData(), jo.getJson()));
+        return getMapResource("latestdata", DefaultLatestdata::new);
     }
 
     @Override
     public Status getStatus() throws SonnenClientException {
-        return getMapResource("status", jo -> new JsonStatus(jo.getData(), jo.getJson()));
+        return getMapResource("status", DefaultStatus::new);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public <T> T getConfiguration(Configuration<T> configuration) throws SonnenClientException {
         String resourceName = "configurations/" + configuration.getName();
-        JsonObject<Map<String, Object>> jsonObject = getMapResource(resourceName);
-        return (T) jsonObject.getData().get(configuration.getName());
+        Map<String, Object> jsonObject = getMapResource(resourceName);
+        return (T) jsonObject.get(configuration.getName());
     }
 
     @Override
@@ -137,7 +132,7 @@ public class JavaSonnenClient implements SonnenClient {
 
     @Override
     public List<Powermeter> getPowermeter() throws SonnenClientException {
-        return getListResource("status", jo -> new JsonPowermeter(jo.getData()));
+        return getListResource("powermeter", DefaultPowermeter::new);
     }
 
     @Override
@@ -208,32 +203,31 @@ public class JavaSonnenClient implements SonnenClient {
         }
     }
 
-    private <T> T getMapResource(String resourceName, Function<JsonObject<Map<String, Object>>, T> constructor) throws SonnenClientException {
+    private <T> T getMapResource(String resourceName, Function<Map<String, Object>, T> constructor) throws SonnenClientException {
         try {
-            JsonObject<Map<String, Object>> jsonObject = getMapResource(resourceName);
-            return constructor.apply(jsonObject);
+            Map<String, Object> mapData = getMapResource(resourceName);
+            return constructor.apply(mapData);
         } catch (Exception e) {
             throw new SonnenClientException(e);
 
         }
     }
 
-    private JsonObject<Map<String, Object>> getMapResource(String resourceName) throws SonnenClientException {
+    private Map<String, Object> getMapResource(String resourceName) throws SonnenClientException {
         String json = getResource(resourceName);
         try {
-            Map<String, Object> map = jsonParser.parseObject(json);
-            return new JsonObject<>(json, map);
+            return jsonFormat.parseObject(json);
         } catch (Exception e) {
             throw new SonnenClientException(e);
 
         }
     }
 
-    private <T> List<T> getListResource(String resourceName, Function<JsonObject<Map<String, Object>>, T> elementConstructor) throws SonnenClientException {
+    private <T> List<T> getListResource(String resourceName, Function<Map<String, Object>, T> elementConstructor) throws SonnenClientException {
         String json = getResource(resourceName);
         try {
-            List<Map<String, Object>> objects = jsonParser.parseArray(json);
-            return objects.stream().map(o -> elementConstructor.apply(new JsonObject<>(json, o))).collect(Collectors.toList());
+            List<Map<String, Object>> objects = jsonFormat.parseArray(json);
+            return objects.stream().map(elementConstructor).collect(Collectors.toList());
         } catch (Exception e) {
             throw new SonnenClientException(e);
 

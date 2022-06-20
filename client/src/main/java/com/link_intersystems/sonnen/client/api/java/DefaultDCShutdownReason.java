@@ -19,11 +19,11 @@ import com.link_intersystems.sonnen.client.api.DCShutdownReason;
 import java.util.Map;
 
 
-public class JsonDCShutdownReason implements DCShutdownReason {
+public class DefaultDCShutdownReason implements DCShutdownReason {
 
     private Map<String, Object> properties;
 
-    public JsonDCShutdownReason(Map<String, Object> properties) {
+    public DefaultDCShutdownReason(Map<String, Object> properties) {
         this.properties = properties;
     }
 

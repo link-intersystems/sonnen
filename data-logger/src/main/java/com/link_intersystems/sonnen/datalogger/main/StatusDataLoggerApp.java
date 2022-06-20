@@ -14,16 +14,16 @@
 
 package com.link_intersystems.sonnen.datalogger.main;
 
+import com.link_intersystems.net.java.JavaHttpClient;
+import com.link_intersystems.sonnen.client.api.java.JacksonJsonFormat;
 import com.link_intersystems.sonnen.client.api.java.JavaSonnenClient;
-import com.link_intersystems.sonnen.client.api.java.SonnenClientProperties;
+import com.link_intersystems.sonnen.client.api.SonnenClientProperties;
 import com.link_intersystems.sonnen.datalogger.controller.StatusDataLoggerController;
 import com.link_intersystems.sonnen.datalogger.entity.SonnenRepository;
 import com.link_intersystems.sonnen.datalogger.gateway.MongoDBConfiguration;
 import com.link_intersystems.sonnen.datalogger.gateway.MongoSonnenRepository;
 import com.mongodb.client.MongoClient;
 import org.apache.commons.cli.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -125,7 +125,7 @@ public class StatusDataLoggerApp {
 
     @Bean
     public StatusDataLoggerController dataLoggerController(SonnenClientProperties sonnenClientProperties, SonnenRepository sonnenRepository) {
-        JavaSonnenClient javaSonnenClient = new JavaSonnenClient(sonnenClientProperties);
+        JavaSonnenClient javaSonnenClient = new JavaSonnenClient(sonnenClientProperties, new JavaHttpClient(), new JacksonJsonFormat());
         return new StatusDataLoggerController(javaSonnenClient, sonnenRepository);
     }
 

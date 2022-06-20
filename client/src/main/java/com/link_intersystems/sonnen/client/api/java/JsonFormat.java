@@ -14,26 +14,17 @@
 
 package com.link_intersystems.sonnen.client.api.java;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class JsonObject<T> {
+public interface JsonFormat {
 
-    private String json;
-    private Map<String, Object> data;
+    public Map<String, Object> parseObject(String json);
 
-    public JsonObject(String json, Map<String, Object> data) {
-        this.json = json;
-        this.data = data;
-    }
+    public List<Map<String, Object>> parseArray(String json);
 
-    public String getJson() {
-        return json;
-    }
-
-    public Map<String, Object> getData() {
-        return data;
-    }
+    public String format(Object value);
 }

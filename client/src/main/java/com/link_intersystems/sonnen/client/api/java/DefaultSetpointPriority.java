@@ -18,11 +18,11 @@ import com.link_intersystems.sonnen.client.api.SetpointPriority;
 
 import java.util.Map;
 
-public class JsonSetpointPriority implements SetpointPriority {
+public class DefaultSetpointPriority implements SetpointPriority {
 
     private Map<String, Object> properties;
 
-    public JsonSetpointPriority(Map<String, Object> properties) {
+    public DefaultSetpointPriority(Map<String, Object> properties) {
         this.properties = properties;
     }
 

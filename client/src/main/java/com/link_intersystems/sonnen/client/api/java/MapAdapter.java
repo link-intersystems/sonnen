@@ -14,11 +14,30 @@
 
 package com.link_intersystems.sonnen.client.api.java;
 
+import java.util.AbstractMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public interface SonnenClientProperties {
-    String getApiUri();
+public class MapAdapter extends AbstractMap<String, Object> {
 
-    String getApiToken();
+    private final Map<String, Object> data;
+
+
+    public MapAdapter(Map<String, Object> data) {
+        this.data = data;
+    }
+
+    @Override
+    public Set<Entry<String, Object>> entrySet() {
+        return data.entrySet();
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <T> T getValue(String key) {
+        return (T) data.get(key);
+    }
+
 }

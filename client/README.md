@@ -1,4 +1,4 @@
-The sonnen-api-client is a simple pure Java based client
+The sonnen-api-client is a Java based client
 to access the JSON API of a sonnen battery like the sonnenBatterie 10 performance.
 
     DefaultSonnenClientProperties properties = new DefaultSonnenClientProperties();

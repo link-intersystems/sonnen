@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
  *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public interface Status extends EnergyData, JsonData {
+public interface Status extends EnergyData {
 
     /**
      * @return the backup-buffer in percentage that is set on the system.

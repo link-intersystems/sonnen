@@ -18,67 +18,67 @@ import com.link_intersystems.sonnen.client.api.Latestdata;
 
 import java.util.Map;
 
-public class JsonLatestdata extends AbstractJsonData implements Latestdata {
+public class DefaultLatestdata extends MapAdapter implements Latestdata {
 
-    public JsonLatestdata(Map<String, Object> jsonData, String json) {
-        super(jsonData, json);
+    public DefaultLatestdata(Map<String, Object> data) {
+        super(data);
     }
 
     @Override
     public Integer getConsumptionW() {
-        return getProperty("Consumption_W");
+        return getValue("Consumption_W");
     }
 
     @Override
     public Integer getFullChargeCapacity() {
-        return getProperty("FullChargeCapacity");
+        return getValue("FullChargeCapacity");
     }
 
     @Override
     public Integer getGridFeedInW() {
-        return getProperty("GridFeedIn_W");
+        return getValue("GridFeedIn_W");
     }
 
     @Override
     public Integer getPacTotalW() {
-        return getProperty("Pac_total_W");
+        return getValue("Pac_total_W");
     }
 
     @Override
     public Integer getProductionW() {
-        return getProperty("Production_W");
+        return getValue("Production_W");
     }
 
     @Override
     public Integer getRsoc() {
-        return getProperty("RSOC");
+        return getValue("RSOC");
     }
 
     @Override
     public Integer getSetPointW() {
-        return getProperty("SetPoint_W");
+        return getValue("SetPoint_W");
     }
 
     @Override
     public String getTimestamp() {
-        return getProperty("Timestamp");
+        return getValue("Timestamp");
     }
 
     @Override
     public Integer getUsoc() {
-        return getProperty("USOC");
+        return getValue("USOC");
     }
 
     @Override
     public Integer getUTCOffet() {
-        return getProperty("UTC_Offet");
+        return getValue("UTC_Offet");
     }
 
     @Override
-    public JsonIcStatus getIcStatus() {
-        Map<String, Object> jsonData = getProperty("ic_status");
+    public DefaultIcStatus getIcStatus() {
+        Map<String, Object> jsonData = getValue("ic_status");
         if (jsonData != null) {
-            return new JsonIcStatus(jsonData);
+            return new DefaultIcStatus(jsonData);
         }
         return null;
     }

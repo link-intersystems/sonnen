@@ -14,42 +14,40 @@
 
 package com.link_intersystems.sonnen.client.api.java;
 
-import com.link_intersystems.sonnen.client.api.MISCStatusBits;
+import com.link_intersystems.sonnen.client.api.EclipseLed;
 
 import java.util.Map;
 
-public class JsonMISCStatusBits implements MISCStatusBits {
-
+public class DefaultEclipseLed implements EclipseLed {
 
     private Map<String, Object> properties;
 
-    public JsonMISCStatusBits(Map<String, Object> properties) {
+    public DefaultEclipseLed(Map<String, Object> properties) {
         this.properties = properties;
     }
 
     @Override
-    public Boolean getDischargeNotAllowed() {
-        return (Boolean) properties.get("Discharge not allowed");
-    }
-
-
-    @Override
-    public Boolean getF1Open() {
-        return (Boolean) properties.get("F1 open");
+    public Boolean getBlinkingRed() {
+        return (Boolean) properties.get("Blinking Red");
     }
 
     @Override
-    public Boolean getMinSystemSOC() {
-        return (Boolean) properties.get("Min System SOC");
+    public Boolean getPulsingGreen() {
+        return (Boolean) properties.get("Pulsing Green");
     }
 
     @Override
-    public Boolean getMinUserSOC() {
-        return (Boolean) properties.get("Min User SOC");
+    public Boolean getPulsingOrange() {
+        return (Boolean) properties.get("Pulsing Orange");
     }
 
     @Override
-    public Boolean getSetpointTimeout() {
-        return (Boolean) properties.get("Setpoint Timeout");
+    public Boolean getPulsingWhite() {
+        return (Boolean) properties.get("Pulsing White");
+    }
+
+    @Override
+    public Boolean getSolidRed() {
+        return (Boolean) properties.get("Solid Red");
     }
 }

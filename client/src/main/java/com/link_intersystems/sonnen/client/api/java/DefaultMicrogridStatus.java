@@ -19,11 +19,11 @@ import com.link_intersystems.sonnen.client.api.MicrogridStatus;
 import java.util.Map;
 
 
-public class JsonMicrogridStatus implements MicrogridStatus {
+public class DefaultMicrogridStatus implements MicrogridStatus {
 
     private Map<String, Object> properties;
 
-    public JsonMicrogridStatus(Map<String, Object> properties) {
+    public DefaultMicrogridStatus(Map<String, Object> properties) {
         this.properties = properties;
     }
 
