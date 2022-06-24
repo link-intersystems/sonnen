@@ -17,10 +17,8 @@ package com.link_intersystems.sonnen.client.api.java;
 import com.link_intersystems.sonnen.client.api.*;
 
 import java.io.OutputStreamWriter;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import static java.util.Objects.requireNonNull;
 
@@ -29,11 +27,11 @@ import static java.util.Objects.requireNonNull;
  *
  * @author René Link {@literal <rene.link@link-intersystems.com>}
  */
-public class JavaSonnenClient implements SonnenClient {
+public class DefaultSonnenClient implements SonnenClient {
 
     private final SonnenRestClient restClient;
 
-    public JavaSonnenClient(SonnenRestClient restClient) {
+    public DefaultSonnenClient(SonnenRestClient restClient) {
         this.restClient = requireNonNull(restClient);
     }
 
@@ -58,7 +56,7 @@ public class JavaSonnenClient implements SonnenClient {
 
     @Override
     public <T> void setConfiguration(Configuration<T> configuration, T value) throws SonnenClientException {
-        restClient.putResource("configurations", Collections.emptyMap(), outputStream -> {
+        restClient.putResource("configurations", outputStream -> {
             String name = configuration.getName();
             OutputStreamWriter writer = new OutputStreamWriter(outputStream);
             writer.write(name);

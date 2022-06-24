@@ -25,7 +25,13 @@
         <dependency>
             <groupId>com.link-intersystems.commons</groupId>
             <artifactId>lis-commons-net</artifactId>
-            <version>1.5.2-SNAPSHOT</version>
+            <version>1.6.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-net-test</artifactId>
+            <version>1.6.0-SNAPSHOT</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

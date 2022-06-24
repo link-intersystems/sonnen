@@ -17,7 +17,7 @@ package com.link_intersystems.sonnen.datalogger.main;
 import com.link_intersystems.net.http.HttpClient;
 import com.link_intersystems.sonnen.client.api.SonnenClientProperties;
 import com.link_intersystems.sonnen.client.api.java.JacksonJsonFormat;
-import com.link_intersystems.sonnen.client.api.java.JavaSonnenClient;
+import com.link_intersystems.sonnen.client.api.java.DefaultSonnenClient;
 import com.link_intersystems.sonnen.client.api.java.SonnenRestClient;
 import com.link_intersystems.sonnen.datalogger.controller.StatusDataLoggerController;
 import com.link_intersystems.sonnen.datalogger.entity.SonnenRepository;
@@ -115,7 +115,7 @@ public class StatusDataLoggerApp {
     @Bean
     public StatusDataLoggerController dataLoggerController(SonnenClientProperties sonnenClientProperties, SonnenRepository sonnenRepository) {
         SonnenRestClient restClient = new SonnenRestClient(sonnenClientProperties, new HttpClient(), new JacksonJsonFormat());
-        JavaSonnenClient javaSonnenClient = new JavaSonnenClient(restClient);
+        DefaultSonnenClient javaSonnenClient = new DefaultSonnenClient(restClient);
         return new StatusDataLoggerController(javaSonnenClient, sonnenRepository);
     }
 

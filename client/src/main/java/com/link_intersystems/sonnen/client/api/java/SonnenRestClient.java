@@ -16,6 +16,7 @@ package com.link_intersystems.sonnen.client.api.java;
 
 import com.link_intersystems.net.http.ContentWriter;
 import com.link_intersystems.net.http.HttpClient;
+import com.link_intersystems.net.http.HttpHeaders;
 import com.link_intersystems.net.http.HttpResponse;
 import com.link_intersystems.sonnen.client.api.SonnenClientException;
 import com.link_intersystems.sonnen.client.api.SonnenClientProperties;
@@ -30,7 +31,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -76,11 +76,11 @@ public class SonnenRestClient {
         return acceptMimeType;
     }
 
-    private String getResourceJson(String resourceName) throws SonnenClientException {
+    public String getResourceJson(String resourceName) throws SonnenClientException {
         try {
             URL url = getResourceUrl(resourceName);
 
-            Map<String, String> headers = getHeaders();
+            HttpHeaders headers = getHeaders();
 
             HttpResponse response = httpClient.get(url, headers);
 
@@ -105,13 +105,13 @@ public class SonnenRestClient {
         }
     }
 
-    private Map<String, String> getHeaders() {
-        LinkedHashMap<String, String> effectiveHeaders = new LinkedHashMap<>();
+    private HttpHeaders getHeaders() {
+        HttpHeaders httpHeaders = new HttpHeaders();
 
-        effectiveHeaders.put("Accept", acceptMimeType);
-        effectiveHeaders.put("Auth-Token", properties.getApiToken());
+        httpHeaders.add("Accept", acceptMimeType);
+        httpHeaders.add("Auth-Token", properties.getApiToken());
 
-        return effectiveHeaders;
+        return httpHeaders;
 
     }
 
@@ -171,13 +171,13 @@ public class SonnenRestClient {
 
     }
 
-    public void putResource(String resourceName, Map<String, String> headers, ContentWriter contentWriter) throws SonnenClientException {
+    public void putResource(String resourceName, ContentWriter contentWriter) throws SonnenClientException {
         try {
             URL url = getResourceUrl(resourceName);
 
             LOGGER.log(Level.FINE, "Put URL {0}", url);
 
-            HttpResponse response = httpClient.put(url, headers, contentWriter);
+            HttpResponse response = httpClient.put(url, contentWriter);
 
             int responseCode = response.getResponseCode();
 
