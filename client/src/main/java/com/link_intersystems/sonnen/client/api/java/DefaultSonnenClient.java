@@ -46,12 +46,12 @@ public class DefaultSonnenClient implements SonnenClient {
         return restClient.getResource("status", DefaultStatus::new);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T> T getConfiguration(Configuration<T> configuration) throws SonnenClientException {
         String resourceName = "configurations/" + configuration.getName();
         Map<String, Object> jsonObject = restClient.getResourceAsMap(resourceName);
-        return (T) jsonObject.get(configuration.getName());
+        Object value = jsonObject.get(configuration.getName());
+        return configuration.cast(value);
     }
 
     @Override

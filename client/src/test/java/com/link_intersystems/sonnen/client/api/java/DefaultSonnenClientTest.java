@@ -209,7 +209,13 @@ class DefaultSonnenClientTest {
     }
 
     @Test
-    void getConfiguration() {
+    void getConfiguration() throws IOException, SonnenClientException {
+        OngoingRequestMocking ongoingRequestMocking = httpMockServer.whenRequestPath("/configurations/IC_BatteryModules");
+        ongoingRequestMocking.respond(200, getBytes("/configurations_ic_battery_modules.json"));
+
+        Integer batteryModules = sonnenClient.getConfiguration(Configuration.IC_BatteryModules);
+
+        assertEquals(2, batteryModules);
     }
 
     @Test

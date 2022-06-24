@@ -60,4 +60,18 @@ public class Configuration<T> {
     public Class<T> getType() {
         return type;
     }
+
+    @SuppressWarnings("unchecked")
+    public T cast(Object value) {
+        if (getType().isInstance(value)) {
+            return (T) value;
+        }
+
+        Class<T> type = getType();
+        if (Integer.class.equals(type)) {
+            return type.cast(Integer.parseInt(String.valueOf(value)));
+        }
+
+        return (T) value;
+    }
 }
