@@ -19,6 +19,7 @@ import com.link_intersystems.net.http.test.HttpMockServer;
 import com.link_intersystems.net.http.test.OngoingRequestMocking;
 import com.link_intersystems.net.http.test.junit.HttpMockServerExtension;
 import com.link_intersystems.sonnen.client.api.*;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,11 +28,11 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
@@ -219,7 +220,15 @@ class DefaultSonnenClientTest {
     }
 
     @Test
-    void setConfiguration() {
+    void setConfiguration() throws SonnenClientException {
+        OngoingRequestMocking ongoingRequestMocking = httpMockServer.whenRequestPath("/configurations");
+        ongoingRequestMocking.respond(200);
+
+        sonnenClient.setConfiguration(Configuration.IC_BatteryModules, 2);
+
+        HttpMockServer.ReceivedRequest latestRequest = httpMockServer.getLatestRequest();
+        byte[] expectedBody = "IC_BatteryModules=2".getBytes(StandardCharsets.UTF_8);
+        assertArrayEquals(expectedBody, latestRequest.getBody());
     }
 
     @Test
@@ -294,17 +303,5 @@ class DefaultSonnenClientTest {
         assertEquals(236.39999389648438, powermeter2.getvL3N().doubleValue());
 
         assertEquals(2638.800048828125, powermeter2.getwTotal().doubleValue());
-    }
-
-    @Test
-    void discharge() {
-    }
-
-    @Test
-    void charge() {
-    }
-
-    @Test
-    void postSetpoint() {
     }
 }
