@@ -12,7 +12,7 @@
  *       Link Intersystems GmbH - initial API and implementation
  */
 
-package com.link_intersystems.sonnen.client.api.java;
+package com.link_intersystems.sonnen.client.api.impl;
 
 import com.link_intersystems.sonnen.client.api.Status;
 
@@ -20,15 +20,17 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-public class DefaultStatus extends MapAdapter implements Status {
+public class DefaultStatus implements Status {
+
+    private Map<String, Object> data;
 
     public DefaultStatus(Map<String, Object> data) {
-        super(data);
+        this.data = data;
     }
 
     @Override
     public Integer getBackupBuffer() {
-        String backupBuffer = getValue("BackupBuffer");
+        String backupBuffer = (String) data.get("BackupBuffer");
         if (backupBuffer == null) {
             return null;
         }
@@ -37,102 +39,102 @@ public class DefaultStatus extends MapAdapter implements Status {
 
     @Override
     public Boolean getBatteryCharging() {
-        return getValue("BatteryCharging");
+        return (Boolean) data.get("BatteryCharging");
     }
 
     @Override
     public Boolean getBatteryDischarging() {
-        return getValue("BatteryDischarging");
+        return (Boolean) data.get("BatteryDischarging");
     }
 
     @Override
     public Integer getConsumptionAvg() {
-        return getValue("Consumption_Avg");
+        return (Integer) data.get("Consumption_Avg");
     }
 
     @Override
     public Integer getConsumptionW() {
-        return getValue("Consumption_W");
+        return (Integer) data.get("Consumption_W");
     }
 
     @Override
     public Double getFac() {
-        return getValue("Fac");
+        return (Double) data.get("Fac");
     }
 
     @Override
     public Boolean getFlowConsumptionBattery() {
-        return getValue("FlowConsumptionBattery");
+        return (Boolean) data.get("FlowConsumptionBattery");
     }
 
     @Override
     public Boolean getFlowConsumptionGrid() {
-        return getValue("FlowConsumptionGrid");
+        return (Boolean) data.get("FlowConsumptionGrid");
     }
 
     @Override
     public Boolean getFlowConsumptionProduction() {
-        return getValue("FlowConsumptionProduction");
+        return (Boolean) data.get("FlowConsumptionProduction");
     }
 
     @Override
     public Boolean getFlowGridBattery() {
-        return getValue("FlowGridBattery");
+        return (Boolean) data.get("FlowGridBattery");
     }
 
     @Override
     public Boolean getFlowProductionBattery() {
-        return getValue("FlowProductionBattery");
+        return (Boolean) data.get("FlowProductionBattery");
     }
 
     @Override
     public Boolean getFlowProductionGrid() {
-        return getValue("FlowProductionGrid");
+        return (Boolean) data.get("FlowProductionGrid");
     }
 
     @Override
     public Integer getGridFeedInW() {
-        return getValue("GridFeedIn_W");
+        return (Integer) data.get("GridFeedIn_W");
     }
 
     @Override
     public Integer getIsSystemInstalled() {
-        return getValue("IsSystemInstalled");
+        return (Integer) data.get("IsSystemInstalled");
     }
 
     @Override
     public String getOperatingMode() {
-        return getValue("OperatingMode");
+        return (String) data.get("OperatingMode");
     }
 
     @Override
     public Integer getPacTotalW() {
-        return getValue("Pac_total_W");
+        return (Integer) data.get("Pac_total_W");
     }
 
     @Override
     public Integer getProductionW() {
-        return getValue("Production_W");
+        return (Integer) data.get("Production_W");
     }
 
     @Override
     public Integer getRsoc() {
-        return getValue("RSOC");
+        return (Integer) data.get("RSOC");
     }
 
     @Override
     public Integer getRemainingCapacityWh() {
-        return getValue("RemainingCapacity_Wh");
+        return (Integer) data.get("RemainingCapacity_Wh");
     }
 
     @Override
     public String getSystemStatus() {
-        return getValue("SystemStatus");
+        return (String) data.get("SystemStatus");
     }
 
     @Override
     public LocalDateTime getTimestamp() {
-        String timestamp = getValue("Timestamp");
+        String timestamp = (String) data.get("Timestamp");
         if (timestamp != null) {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             return LocalDateTime.parse(timestamp, dateTimeFormatter);
@@ -143,26 +145,26 @@ public class DefaultStatus extends MapAdapter implements Status {
 
     @Override
     public Integer getUsoc() {
-        return getValue("USOC");
+        return (Integer) data.get("USOC");
     }
 
     @Override
     public Integer getUac() {
-        return getValue("Uac");
+        return (Integer) data.get("Uac");
     }
 
     @Override
     public Integer getUbat() {
-        return getValue("Ubat");
+        return (Integer) data.get("Ubat");
     }
 
     @Override
     public Boolean getDischargeNotAllowed() {
-        return getValue("dischargeNotAllowed");
+        return (Boolean) data.get("dischargeNotAllowed");
     }
 
     @Override
     public Boolean getGeneratorAutostart() {
-        return getValue("generator_autostart");
+        return (Boolean) data.get("generator_autostart");
     }
 }

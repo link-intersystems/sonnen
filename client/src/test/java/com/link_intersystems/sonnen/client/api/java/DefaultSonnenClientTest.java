@@ -19,7 +19,7 @@ import com.link_intersystems.net.http.test.HttpMockServer;
 import com.link_intersystems.net.http.test.OngoingRequestMocking;
 import com.link_intersystems.net.http.test.junit.HttpMockServerExtension;
 import com.link_intersystems.sonnen.client.api.*;
-import org.junit.jupiter.api.Assertions;
+import com.link_intersystems.sonnen.client.api.impl.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

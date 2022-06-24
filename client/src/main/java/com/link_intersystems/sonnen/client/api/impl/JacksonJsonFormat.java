@@ -12,7 +12,7 @@
  *       Link Intersystems GmbH - initial API and implementation
  */
 
-package com.link_intersystems.sonnen.client.api.java;
+package com.link_intersystems.sonnen.client.api.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

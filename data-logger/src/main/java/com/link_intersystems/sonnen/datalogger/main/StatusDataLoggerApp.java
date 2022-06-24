@@ -16,9 +16,9 @@ package com.link_intersystems.sonnen.datalogger.main;
 
 import com.link_intersystems.net.http.HttpClient;
 import com.link_intersystems.sonnen.client.api.SonnenClientProperties;
-import com.link_intersystems.sonnen.client.api.java.JacksonJsonFormat;
-import com.link_intersystems.sonnen.client.api.java.DefaultSonnenClient;
-import com.link_intersystems.sonnen.client.api.java.SonnenRestClient;
+import com.link_intersystems.sonnen.client.api.impl.JacksonJsonFormat;
+import com.link_intersystems.sonnen.client.api.impl.DefaultSonnenClient;
+import com.link_intersystems.sonnen.client.api.impl.SonnenRestClient;
 import com.link_intersystems.sonnen.datalogger.controller.StatusDataLoggerController;
 import com.link_intersystems.sonnen.datalogger.entity.SonnenRepository;
 import com.link_intersystems.sonnen.datalogger.gateway.MongoDBConfiguration;

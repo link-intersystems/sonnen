@@ -12,71 +12,74 @@
  *       Link Intersystems GmbH - initial API and implementation
  */
 
-package com.link_intersystems.sonnen.client.api.java;
+package com.link_intersystems.sonnen.client.api.impl;
 
 import com.link_intersystems.sonnen.client.api.Latestdata;
 
 import java.util.Map;
 
-public class DefaultLatestdata extends MapAdapter implements Latestdata {
+public class DefaultLatestdata implements Latestdata {
+
+    private Map<String, Object> data;
 
     public DefaultLatestdata(Map<String, Object> data) {
-        super(data);
+        this.data = data;
     }
 
     @Override
     public Integer getConsumptionW() {
-        return getValue("Consumption_W");
+        return (Integer) data.get("Consumption_W");
     }
 
     @Override
     public Integer getFullChargeCapacity() {
-        return getValue("FullChargeCapacity");
+        return (Integer) data.get("FullChargeCapacity");
     }
 
     @Override
     public Integer getGridFeedInW() {
-        return getValue("GridFeedIn_W");
+        return (Integer) data.get("GridFeedIn_W");
     }
 
     @Override
     public Integer getPacTotalW() {
-        return getValue("Pac_total_W");
+        return (Integer) data.get("Pac_total_W");
     }
 
     @Override
     public Integer getProductionW() {
-        return getValue("Production_W");
+        return (Integer) data.get("Production_W");
     }
 
     @Override
     public Integer getRsoc() {
-        return getValue("RSOC");
+        return (Integer) data.get("RSOC");
     }
 
     @Override
     public Integer getSetPointW() {
-        return getValue("SetPoint_W");
+        return (Integer) data.get("SetPoint_W");
     }
 
     @Override
     public String getTimestamp() {
-        return getValue("Timestamp");
+        return (String) data.get("Timestamp");
     }
 
     @Override
     public Integer getUsoc() {
-        return getValue("USOC");
+        return (Integer) data.get("USOC");
     }
 
     @Override
     public Integer getUTCOffet() {
-        return getValue("UTC_Offet");
+        return (Integer) data.get("UTC_Offet");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public DefaultIcStatus getIcStatus() {
-        Map<String, Object> jsonData = getValue("ic_status");
+        Map<String, Object> jsonData = (Map<String, Object>) data.get("ic_status");
         if (jsonData != null) {
             return new DefaultIcStatus(jsonData);
         }

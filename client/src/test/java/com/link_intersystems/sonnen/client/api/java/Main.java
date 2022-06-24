@@ -16,6 +16,9 @@ package com.link_intersystems.sonnen.client.api.java;
 
 import com.link_intersystems.net.http.HttpClient;
 import com.link_intersystems.sonnen.client.api.*;
+import com.link_intersystems.sonnen.client.api.impl.DefaultSonnenClient;
+import com.link_intersystems.sonnen.client.api.impl.JacksonJsonFormat;
+import com.link_intersystems.sonnen.client.api.impl.SonnenRestClient;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}

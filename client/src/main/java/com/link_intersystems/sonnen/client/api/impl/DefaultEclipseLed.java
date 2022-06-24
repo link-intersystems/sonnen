@@ -12,7 +12,7 @@
  *       Link Intersystems GmbH - initial API and implementation
  */
 
-package com.link_intersystems.sonnen.client.api.java;
+package com.link_intersystems.sonnen.client.api.impl;
 
 import com.link_intersystems.sonnen.client.api.EclipseLed;
 

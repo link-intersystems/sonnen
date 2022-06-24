@@ -14,7 +14,7 @@
 
 package com.link_intersystems.sonnen.client.api;
 
-import com.link_intersystems.sonnen.client.api.java.DefaultIcStatus;
+import com.link_intersystems.sonnen.client.api.impl.DefaultIcStatus;
 
 /**
  * @author René Link {@literal <rene.link@link-intersystems.com>}
