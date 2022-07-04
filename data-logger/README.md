@@ -31,7 +31,7 @@ The data-logger is a Spring Boot application and needs an `application.propertie
 You can use this template and edit the `spring.sonnen` properties at the top. 
 
     spring.sonnen.api-url=<EDIT_ME>
-    spring.sonnen.authToken=<EDIT_ME>
+    spring.sonnen.api-token=<EDIT_ME>
     
     # Do not start tomcat. We only want to execute a rest client application.
     spring.main.web-application-type=none

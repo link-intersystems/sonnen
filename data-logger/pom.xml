@@ -63,9 +63,7 @@
         </dependency>
     </dependencies>
 
-
     <profiles>
-
         <profile>
             <id>docker-deploy</id>
             <build>
