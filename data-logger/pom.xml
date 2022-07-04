@@ -92,6 +92,22 @@
                         <version>3.0.0</version>
                         <executions>
                             <execution>
+                                <id>docker-clean-multiplatform-builder</id>
+                                <phase>post-clean</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>docker</executable>
+                                    <workingDirectory>${project.basedir}</workingDirectory>
+                                    <arguments>
+                                        <argument>buildx</argument>
+                                        <argument>rm</argument>
+                                        <argument>mp</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
                                 <id>docker-create-multiplatform-builder</id>
                                 <phase>package</phase>
                                 <goals>
