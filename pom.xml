@@ -16,7 +16,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>client</module>
+        <module>client-api</module>
+        <module>client-rest</module>
         <module>data-logger</module>
     </modules>
 
@@ -63,6 +64,16 @@
                 <artifactId>mockito-core</artifactId>
                 <version>${mockito.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.link-intersystems.sonnen</groupId>
+                <artifactId>sonnen-client-api</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.link-intersystems.sonnen</groupId>
+                <artifactId>sonnen-client-rest</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

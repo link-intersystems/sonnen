@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.link-intersystems.sonnen</groupId>
+        <artifactId>sonnen</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>sonnen-client-rest</artifactId>
+    <name>Java Sonnen Client Rest</name>
+    <description>An extendable rest client for the Sonnen API.</description>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>com.link-intersystems.sonnen</groupId>
+            <artifactId>sonnen-client-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-net</artifactId>
+            <version>1.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.link-intersystems.commons</groupId>
+            <artifactId>lis-commons-net-test</artifactId>
+            <version>1.6.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

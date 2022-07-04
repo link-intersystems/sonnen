@@ -44,8 +44,7 @@
         </dependency>
         <dependency>
             <groupId>com.link-intersystems.sonnen</groupId>
-            <artifactId>sonnen-api-client</artifactId>
-            <version>1.6.0</version>
+            <artifactId>sonnen-client-rest</artifactId>
         </dependency>
         <dependency>
             <groupId>com.link-intersystems.commons</groupId>

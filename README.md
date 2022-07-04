@@ -5,16 +5,15 @@ This repository contains libraries that can be used with the sonnen.de photovolt
 | When you use the software provided here you agree to the the [Eclipse Public License (EPL) 2.0](LICENSE.md). | 
 
 
-# [sonnen-api-client](client/README.md)
+# [sonnen-client-rest](client-rest/README.md)
 
-The sonnen-api-client is a Java based client
+The sonnen-client-rest is a Java based client
 to access the JSON API of a sonnen battery like the sonnenBatterie 10 performance.
 
-    DefaultSonnenClientProperties properties = new DefaultSonnenClientProperties();
-    properties.setApiUrl("http://<your_host_or_ip>/api/v2");
-    properties.setApiToken("<your_api_token>");
+    SonnenClientFactory factory = SonnenClientFactory.getInstance();
+    SonnenClient sonnenClient = factory.create("http://<your_host_or_ip>/api/v2", "<your_api_token>")
 
-    SonnenClient sonnenClient = new JavaSonnenClient(properties);
+    Status status = sonnenClient.getStatus();
 
     System.out.println("Erzeugung [W]: " + status.getProductionW());
     System.out.println("Verbrauch [W]: " + status.getConsumptionW());
